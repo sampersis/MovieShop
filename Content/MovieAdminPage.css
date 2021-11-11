@@ -1,0 +1,36 @@
+﻿body {
+}
+
+.movie-admin-page-header {
+    font-size: 6rem;
+    font-weight: bold;
+    margin: 1% auto 5% auto;
+}
+
+.create-movie-table {
+    font-family: 'Azeret Mono', monospace;
+    margin: 0 auto 5% auto;
+    background-color: #ccc;
+}
+
+.create-movie-table th {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.create-movie-table td {
+    padding: 10px 10px 10px 10px;
+}
+
+.create-movie-url{
+    display:block;
+    width: 100%;
+}
+
+.create-movie-button {
+    width: 100%
+}
+
+.movie-list-table {
+    font-size: 1rem;
+}

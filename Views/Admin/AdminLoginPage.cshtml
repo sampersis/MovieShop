@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "AdminHome";
+}
+
+<h1 class="admin-login-page-header"> Movie Shop - <span class="admin-login">Admin Login</span> Page</h1>
+
+<div class="login-div">
+    <div class="image-div">
+        <img src="./Iamges/bg-admin-login-page.jpg" />
+    </div>
+    <div class="login-form-div">
+        <form method="post">
+            <label class="login-form-email-label"><strong>Email address</strong></label>
+            <input class="login-form-input" type="email" name="emailaddress" required><br /><br />
+
+            <label class="login-form-password-label"><strong>Password</strong></label>
+            <input type="password" name="password" required><br /><br />
+
+            <input class="login-form-signin" type="submit" value="Sign In">
+        </form>
+    </div>
+    <div class="legal-notice">
+        <p>
+            This service is restricted to authorized users only. All activities on this system are logged.
+            Unauthorized access will be fully investigated and reported to the appropriate law enforcement agencies.
+        </p>
+    </div>
+</div>
+

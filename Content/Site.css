@@ -1,4 +1,6 @@
 ﻿body {
+    font-family: 'Azeret Mono', monospace;
+    background-color: #DCDCDC;
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -22,3 +24,89 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* Admin Login Page */
+
+.admin-page-navbar {
+    background-color: #f8f5f5;
+}
+
+
+/*.admin-menu-item {
+    pointer-events: none;
+}*/
+
+
+.admin-login-page-header {
+    font-family: 'Azeret Mono', monospace;
+    font-size: 6rem;
+    font-weight: bold;
+    margin: 10% auto;
+}
+
+.admin-login {
+    color: red;
+}
+
+.login-div{
+    border-radius: 0 5px 0 5px;
+}
+.login-form-div {
+    position: sticky;
+    font-family: 'Azeret Mono', monospace;
+    margin: -37% auto 0 auto;
+    width: 425px;
+    border: solid black;
+    border-radius: 10px 10px 10px 10px;
+    background-repeat: no-repeat;
+    border-color: red;
+    border-width: 10px;
+   background-color: black;
+}
+
+.image-form-div {
+    margin: 0 auto 0 auto;
+}
+
+img {
+    width: 100%;
+}
+
+.login-form-email-label {
+    padding: 30px 10px 0 25px;
+    color: white;
+}
+
+.login-form-password-label {
+    padding: 0 55px 0 27px;
+    color: white;
+}
+
+.login-form-signin {
+    padding: 3px;
+    align-self: center;
+    margin-left: 165px;
+    margin-bottom: 20px;
+    width: 220px;
+    border:solid red 2px;
+    border-radius: 5px;
+    background-color: black;
+    color: red;
+}
+
+.legal-notice {
+    font-family: 'Azeret Mono', monospace;
+    font-size: 2rem;
+    background-color: red;
+    color: white;
+    margin: 20% auto 20% auto;
+    text-align: center;
+}
+
+.footer {
+    font-family: 'Azeret Mono', monospace;
+    font-size: 1rem;
+    color: grey;
+}
+
+

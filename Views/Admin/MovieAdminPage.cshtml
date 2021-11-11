@@ -1,0 +1,102 @@
+﻿@model IEnumerable<MovieShop.Models.Movies>
+
+@{
+    ViewBag.Title = "Movie Shop - Movie Admin Page";
+}
+
+<h1 class="movie-admin-page-header">Admin Page - Movie</h1>
+
+@using (Html.BeginForm("CreateMovie", "Admin", FormMethod.Post))
+{
+    <table class="create-movie-table">
+        <tr>
+            <th colspan="4" align="center"><i class="fas fa-film"></i> Create Movie <i class="fas fa-film"></i></th>
+        </tr>
+
+        <tr>
+            <td>Title</td>
+            <td><input class="create-movie-title" name="Title" type="text" required /></td>
+
+            <td>Director</td>
+            <td><input class="create-movie-director" name="Director" type="text" required /></td>
+        </tr>
+
+        <tr>
+            <td>Year</td>
+            <td><input class="create-movie-year" name="RealYear" type="text" required /></td>
+
+            <td>Price</td>
+            <td><input class="create-movie-price" name="Price" type="number" required /></td>
+        </tr>
+
+        <tr>
+            <td>URL</td>
+            <td colspan="3"><input class="create-movie-url" name="Url" type="url" required /></td>
+        </tr>
+
+        <tr>
+            <td>Select Image</td>
+            <td colspan="3"><input class="create-movie-image" name="Image" type="file" accept=".jpg, .jpeg" /></td>
+        </tr>
+
+        <tr> <td colspan="4" align="center"><input class="create-movie-button" type="submit" value="Create Movie" /></td></tr>
+    </table>
+}
+
+@*<script>
+    $(".create-movie-button").attr("value", "Browse Images...");
+</script>*@
+
+
+<table class="movie-list-table table-striped table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Director)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RealYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Url) 
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Director)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RealYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a href=@Html.DisplayFor(modelItem => item.Url) target="_blank">Further reading</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.ActionLink("Modify", "ModifyMovieAdminPage", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteMovieAdminPage", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
