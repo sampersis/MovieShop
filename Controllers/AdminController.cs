@@ -9,6 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Migrations;
 using MovieShop.Models;
 using System.Drawing;
+using System.IO;
+using System.Web.Helpers;
 
 namespace MovieShop.Controllers
 {
@@ -52,36 +54,23 @@ namespace MovieShop.Controllers
             return View();
         }
 
-        public  void UploadImage(string filename)
-        {
-                Image img = new Image();
-                img.ImageTitle = fileName;
-
-                MemoryStream ms = new MemoryStream();
-                file.CopyTo(ms);
-                img.ImageData = ms.ToArray();
-
-                ms.Close();
-                ms.Dispose();
-
-                //db.Images.Add(img);
-                //db.SaveChanges();
-        }
-
         [HttpPost]
         public ActionResult CreateMovie(Movies movie)
         {
-           MovieDB.Movies.Add(new Movies
+            Movies Movie;
+
+            MovieDB.Movies.Add(Movie = new Movies()
                 {
                     Title = movie.Title,
                     Director = movie.Director,
                     RealYear = movie.RealYear,
                     Price = movie.Price,
                     Url = movie.Url,
-                    Image = movie.Image
+                    ImgFile =  WebImage.GetImageFromRequest(),
                 }
-            );
+             ) ;
 
+            Movie.Image = Movie.ImgFile.GetBytes();
             MovieDB.SaveChanges();
 
             return RedirectToAction("MovieAdminPage");
@@ -136,7 +125,7 @@ namespace MovieShop.Controllers
         public ActionResult ModifyMovieAdminPage(Movies movie)
         {
             var Movie = new Movies();
-            Movie = MovieDB.Movies.FirstOrDefault(m => m.Id == movie.Id);
+            Movie = MovieDB.Movies.Find(movie.Id);
 
             if (Movie == null)
             {
@@ -144,19 +133,16 @@ namespace MovieShop.Controllers
             }
             else
             {
-                MovieDB.Movies.AddOrUpdate(new Movies
-                {
-                    Title = movie.Title,
-                    Director = movie.Director,
-                    RealYear = movie.RealYear,
-                    Price = movie.Price,
-                    Url = movie.Url,
-                    Image = movie.Image
-                }
-                );
+                Movie.Title = movie.Title;
+                Movie.Director = movie.Director;
+                Movie.RealYear = movie.RealYear;
+                Movie.Price = movie.Price;
+                Movie.Url = movie.Url;
+                Movie.Image = movie.Image;
 
-                MovieDB.Movies.Remove(Movie);
+                MovieDB.Entry(Movie).State = System.Data.Entity.EntityState.Modified;
                 MovieDB.SaveChanges();
+
                 return RedirectToAction("MovieAdminPage");
             }
         }

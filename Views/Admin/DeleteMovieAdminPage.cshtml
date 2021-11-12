@@ -52,11 +52,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+            @Html.HiddenFor(model => model.Image)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            @Html.HiddenFor(model => model.Image)
         </dd>
 
     </dl>
@@ -64,9 +64,10 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Movie Admin Page", "MovieAdminPage")
-        </div>
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete Movie" class="movie-delete-page-delete-btn btn btn-default btn-danger" />
+        <a href="/Admin/MovieAdminPage" class ="movie-delete-page-cancel-btn">Abort Delete</a>
+        @*@Html.ActionLink("Cancel", "MovieAdminPage", new {@class = "delete-page-cancel-btn btn btn-light", @type="button" })*@
+    </div>
     }
 </div>
