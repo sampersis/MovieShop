@@ -1,0 +1,149 @@
+﻿body {
+    /*    background-image: src('~/Iamges/bg-admin-login-page.jpg');*/
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-default {
+    background-color: #F8F8F8;
+    border-color: #E7E7E7;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    color: darkgrey;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.company-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.nav-item:hover {
+    color:red;
+}
+
+.movie-shop-shopping-cart-btn, .movie-shop-shopping-login-btn {
+    background-color: transparent;
+    border: none;
+    color: darkgrey;
+    margin: 0 auto 0 auto;
+}
+
+.movie-shop-shopping-login-btn {
+    margin: 8px auto 0 auto;
+    font-size: 2rem;
+}
+
+.movie-shop-shopping-login-btn:hover {
+    color: black;
+}
+
+.movie-shop-shopping-cart-icon {
+    font-size: 2rem;
+    color: darkgrey;
+    padding-top: 5px;
+}
+
+.movie-shop-shopping-cart-icon:hover {
+    color: black;
+}
+
+
+.movie-shop-shopping-cart-badge {
+    background-color: lightgrey;
+}
+
+.drop-down-login {
+    width: 300px;
+    padding: 10px 10px 10px 10px;
+}
+
+.login-register-dropdown {
+    text-align: center;
+    color: darkgoldenrod;
+}
+
+.movie-shop-menu-item:hover {
+    color: black;
+}
+
+.shopping-cart-items {
+    padding: 10px;
+}
+
+.carousel-card-image {
+    max-width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+}
+
+.carousel-card-div {
+    width: 250px;
+    height: 300px;
+}
+
+.data-slide-to-dot {
+    color: green;
+}
+
+.carousel-control-arrow {
+    color: black;
+}
+
+.baseBlock:hover {
+    -webkit-transform: translate(0, -8px);
+    -moz-transform: translate(0, -8px);
+    -ms-transform: translate(0, -8px);
+    -o-transform: translate(0, -8px);
+    transform: translate(0, -8px);
+    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-container {
+    margin-top: -3%;
+}
+
+.inner-carousel {
+    margin: 5% auto 5% auto;
+    padding: 2% 0 10.5% 20%;
+    background-color: lightgrey;
+}
+
+#shopping-cart-table {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: left;
+     padding: 20px;
+     color:black;
+}
+
+#shopping-cart-table-header {
+    display: table-cell;
+}
+
+#shopping-cart-table-header-title {
+    width: 300px;
+}
+
+#shopping-cart-table-header-number {
+    width: 100px;
+}
+
+#shopping-cart-table-header-price, #shopping-cart-table-header-sum {
+    width: 200px;
+}
+
+.card-text {
+    line-height:1rem;
+}
+
+#register-button{
+    list-style-type: none;
+    text-decoration: none;
+    color: white;
+}
+
+#register-button:hover {
+    text-decoration: none;
+}

@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -195,6 +196,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\MovieAdminPage.css" />
+    <Content Include="Content\movieshoppage.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -202,11 +204,14 @@
     <Content Include="Iamges\bg-admin-login-page.jpg" />
     <Content Include="Iamges\CircleAnimation.gif" />
     <Content Include="Iamges\fall-back-time-change.gif" />
+    <Content Include="Iamges\filmCamera.jpg" />
     <Content Include="Iamges\metin-seven-metin-seven-3d-animated-gif-animation-gears-cogwheels.gif" />
+    <Content Include="Iamges\OldFilmCamera.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Iamges\SphereAnimation.webp" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\movieshop.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -217,6 +222,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Account\_ViewStart.cshtml" />
+    <Content Include="Views\Admin\_ViewStart.cshtml" />
+    <None Include="Views\Customers\Contact.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -227,7 +235,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -257,6 +265,9 @@
     <Content Include="Views\Admin\OrderAdminPage.cshtml" />
     <Content Include="Views\Admin\DeleteMovieAdminPage.cshtml" />
     <Content Include="Views\Admin\ModifyMovieAdminPage.cshtml" />
+    <Content Include="Views\Shared\_layoutAccount.cshtml" />
+    <Content Include="Views\Customers\MovieShop.cshtml" />
+    <Content Include="Views\Shared\_layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
