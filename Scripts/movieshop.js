@@ -37,7 +37,6 @@ $(".movie-shop-shopping-cart-btn").on('click', function () {
 
 
 function emptyShoppingCart() {
-    console.log("Empty Shopping Cart button pressed!");
     var response = confirm("Do you want to empty the shopping cart?");
 
     if (response == true) { // Empty the shopping cart
@@ -92,9 +91,14 @@ $(".movie-shop-buy-btn").on('click', function () {
                 "<td>" + shopCartArray[i].price + "</td>" +
                 "<td>" + shopCartArray[i].price * shopCartArray[i].count + "</td>" +
                 "</tr>";
-
         }
 
+        let totalSum = 0;
+        for (i = 0; i < shopCartArray.length; i++) {
+            totalSum += (shopCartArray[i].count * shopCartArray[i].price);
+        }
+
+        ShoppingItem = ShoppingItem + "<tr><td> Total Sum</td><td></td><td>SEK</td><td>" + totalSum + "</td></tr>";
         ShoppingItem = ShoppingItem + "<tr><td colspan='4'> <div>" +
             "<span class='btn btn-danger' id='empty-shopping-cart-btn' style='min-width:120px;' onclick='emptyShoppingCart()'> Empty Shopping Cart</span>" +
             "<a class='pull-right btn btn-success check-out-btn' style='width:120px;' href='#'>Checkout</a>" +
