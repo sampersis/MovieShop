@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using DotNetAssignment3_MovieProject.Models;
+using MovieShop.Models;
 
 namespace MovieShop.Models
 {
@@ -21,6 +21,7 @@ namespace MovieShop.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
         public DbSet<Customers> Customers { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<OrderRows> OrderRows { get; set; }
@@ -29,7 +30,6 @@ namespace MovieShop.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

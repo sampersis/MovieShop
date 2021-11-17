@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Helpers;
 
-namespace DotNetAssignment3_MovieProject.Models
+namespace MovieShop.Models
 {
     public class Movies
     {
@@ -14,5 +16,8 @@ namespace DotNetAssignment3_MovieProject.Models
         public decimal Price { get; set; }
         public string Url { get; set; }
         public byte[] Image { get; set; }
+
+        [NotMapped]
+        public WebImage ImgFile;
     }
 }

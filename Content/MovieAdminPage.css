@@ -1,0 +1,86 @@
+﻿body {
+}
+
+.movie-admin-page-header {
+    font-size: 6rem;
+    font-weight: bold;
+    margin: 1% auto 5% auto;
+}
+
+.create-movie-table {
+    font-family: 'Azeret Mono', monospace;
+    margin: 0 auto 5% auto;
+    background-color: #ccc;
+}
+
+.create-movie-table th {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.create-movie-table td {
+    padding: 10px 10px 10px 10px;
+}
+
+.create-movie-url{
+    display:block;
+    width: 100%;
+}
+
+.create-movie-button {
+    width: 100%
+}
+
+.movie-list-table {
+    font-size: 1rem;
+}
+
+.movie-url-image {
+    max-width: 25px;
+    max-height: 25px;
+}
+
+.movie-url-image:hover {
+    transform: scale(3);
+}
+
+.movie-delete-page-delete-btn, 
+.movie-modify-page-save-btn {
+    cursor: zoom-in;
+}
+
+.movie-delete-page-delete-btn:hover,
+.movie-modify-page-save-btn:hover {
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    background-color: darkred;
+    padding: 10px 20px;
+    font-size: 2rem;
+}
+
+.movie-delete-page-cancel-btn, 
+.movie-modify-page-cancel-btn {
+    text-decoration: none;
+    background-color: lightgrey;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    margin: 10px 30px;
+    cursor: pointer;
+}
+
+.movie-delete-page-cancel-btn:hover,
+.movie-modify-page-cancel-btn:hover{
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    padding: 10px 20px;
+    font-size: 2rem;
+}
+
+
