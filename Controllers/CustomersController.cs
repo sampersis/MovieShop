@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
 using MovieShop.Models;
 
 namespace MovieShop.Controllers
@@ -96,6 +97,24 @@ namespace MovieShop.Controllers
                 return HttpNotFound();
             }
             return View(customers);
+        }
+
+
+        [HttpPost]
+        public ActionResult ShoppingCart()
+        {
+            string ShoppingCartContent = Request.Form["ShoppingList"];
+            string [] ShoppingCartItems = ShoppingCartContent.Split('!');
+            string[][] ShoppingCartItem = new string[ShoppingCartItems.Length-1][];
+
+            for (int i = 0; i < ShoppingCartItems.Length-1; i++)
+            {
+                ShoppingCartItem[i] = ShoppingCartItems[i].Split('+');
+            }
+
+            ViewBag.Collection = ShoppingCartItem;
+            Session["ShoppingCart"] = ShoppingCartItem;
+            return View();
         }
 
         // POST: Customers/Edit/5

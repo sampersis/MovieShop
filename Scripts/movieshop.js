@@ -8,7 +8,6 @@ class ShoppingItem
     constructor(id,title,price)
     {
         var count;
-        var alreadyInShoppingCart = false;
         this.id = id;
         this.title = title;
         this.price = price;
@@ -36,6 +35,8 @@ $(".movie-shop-shopping-cart-btn").on('click', function () {
 });
 
 
+
+// Function to empty the Shopping Cart
 function emptyShoppingCart() {
     var response = confirm("Do you want to empty the shopping cart?");
 
@@ -46,13 +47,30 @@ function emptyShoppingCart() {
         $(".movie-shop-shopping-cart-badge").text(0);
         $(".movie-shop-shopping-cart-icon").css("color", "gray");
         shopCartArray = [];
-
-        //for (var i = 0; i < shopCartArray.length; i++) {
-        //    shopCartArray[i]=shift();
-        //}
     }
 };
 
+
+// Function for Checkout
+function checkOut() {
+
+    // Make a string of the shopping cart
+    let ShoppingCartList = "";
+
+    for (var i=0; i < shopCartArray.length; i++) {
+        ShoppingCartList +=  shopCartArray[i].title + "+" + shopCartArray[i].count + "+" + shopCartArray[i].price +
+            "+" + shopCartArray[i].count * shopCartArray[i].price + "!";
+    }
+
+    // Write the string into hidden form
+    $(document.querySelector("#ShoppingList")).val(ShoppingCartList);
+    console.log(document.querySelector("#SubmitShoppingList").getAttribute("hello"));
+
+    // Create an autoclick even to POST the string to the Razor page
+    var AutoClick = document.createEvent("MouseEvents");
+    AutoClick.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0,false, false, false, false, 0, null);
+    document.querySelector("#SubmitShoppingList").dispatchEvent(AutoClick);
+}
 
 
 // Handle click on Add Cart Button (Buy)
@@ -77,7 +95,7 @@ $(".movie-shop-buy-btn").on('click', function () {
         // Add the table header
         var ShoppingItem =
             "<thead class='thead-dark'><tr id='shopping-cart-table-header'>" +
-            "<th id='shopping-cart-table-header-title' colspan='3'>Title</th>" +
+            "<th id='shopping-cart-table-header-title'>Title</th>" +
             "<th id='shopping-cart-table-header-number'>Quantity</th>" +
             "<th id='shopping-cart-table-header-price'>Price</th>" +
             "<th id='shopping-cart-table-header-sum'>Sum</th>" +
@@ -101,7 +119,7 @@ $(".movie-shop-buy-btn").on('click', function () {
         ShoppingItem = ShoppingItem + "<tr><td> Total Sum</td><td></td><td>SEK</td><td>" + totalSum + "</td></tr>";
         ShoppingItem = ShoppingItem + "<tr><td colspan='4'> <div>" +
             "<span class='btn btn-danger' id='empty-shopping-cart-btn' style='min-width:120px;' onclick='emptyShoppingCart()'> Empty Shopping Cart</span>" +
-            "<a class='pull-right btn btn-success check-out-btn' style='width:120px;' href='#'>Checkout</a>" +
+            "<span class='pull-right btn btn-success check-out-btn' style='width:120px;' onclick='checkOut()'>Checkout</span>" +
             "</div></td></tr>";
 
         // Update the shopping cart
@@ -164,4 +182,59 @@ function AddItemToShoppingCart(item) {
                 shopCartArray.push(movie);
             }
         }
+}
+
+// Handling of Quantity on Checkout page
+function ChangeQty(id) {
+    let index = 0;
+    var BtnId = "#" + id;
+    console.log(BtnId);
+    var btn = document.querySelector(BtnId);
+    index = BtnId.indexOf('Plus'); console.log(index);
+    if (index == -1) {
+        index = BtnId.indexOf('Minus');
     }
+
+    console.log(index);
+
+    var btnQtyId = BtnId.substring(0, index) + "QTY";
+    console.log(btnQtyId);
+    var BtnQty = document.querySelector(btnQtyId);
+    console.log(BtnQty.innerHTML);
+
+    // Change the value of Quantity Button
+    let Value = parseInt(BtnQty.innerText, 10);
+    if (btn.innerText == "+") {
+        if (Value >= 0 && Value < 3) {
+            Value++;
+        }
+    }
+    else {
+        if (Value > 0) {
+            Value--;
+        }
+    }
+
+    BtnQty.innerText = Value;
+    console.log("Plus button: " + Value);
+
+    //Get the value of Price column
+    console.log("Next --> " + $(BtnQty).next());
+    console.log("Next Next --> " + $(BtnQty).next().next().html());
+    var parent = $(BtnQty).parent().parent();
+    var price = $(parent).next();
+    var sum = $(parent).next().next();
+
+    // Multiply the new quantity with the Price and update the Sum column
+    var oldValue = parseInt($(sum).text(), 10);
+    $(sum).text(parseInt($(BtnQty).text(), 10) * parseInt($(price).text(), 10));
+
+    console.log("Next --> " + $(price).text());
+    console.log("Next Next --> " + $(sum).html());
+
+    // Update the Total Sum 
+    var totalSum = document.querySelector("#totalsum");
+    Value = parseInt($(totalSum).text(), 10) + parseInt($(sum).text(), 10) - oldValue;
+    $(totalSum).text(Value);
+}
+

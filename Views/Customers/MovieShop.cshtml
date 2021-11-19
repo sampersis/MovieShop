@@ -39,18 +39,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" class="movie-shop-menu-item"><b>About Movie Shop</b></a></li>
+                    <li class="active" style="font-weight:bold;">@Html.ActionLink("Movie Shop", "MovieShop", "Customers")</li>
                     <li style="font-weight:bold;">@Html.ActionLink("Contact", "Contact", "Customers")</li>
-                    @*<li><a href="~/Customers/Contact.cshtml" class="movie-shop-menu-item"><b>Contact</a></b></li>*@
-                    <!--<li style="font-weight:bold;">@Html.ActionLink("Login|Register", "Login", "Account")</li>
-                                    <form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post">
-                    <input name="__RequestVerificationToken" type="hidden" value="WplbiA17tGwTPnryPTIpTl5UVSG4ffdtcTUtfBPt5vRJHavNl59l1gmBXVl-T9Yv-XoWlOQkbAiFnq5ib5TS8rQ8c2GDUIgQ0t4gyj2LPJfh4Qk0qibF3oNA8CyBpwWmdkfpnUU4kBknIHvqP-TzTQ2" />    <ul class="nav navbar-nav navbar-right">
-                        <li title="Manage">
-                            <p>Kalle</p>
-                        </li>
-                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                    </ul>
-                </form>-->
                 </ul>
 
 
@@ -77,12 +67,12 @@
                                     <h4 class="login-register-dropdown"><b>Welcome to Movie Shop</b></h4>
                                     <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
                                         <div class="form-group">
-                                            <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                                            <label class="sr-only" for="email-address">Email address</label>
+                                            <input type="email" class="form-control" id="email-address" placeholder="Email address" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                            <label class="sr-only" for="password">Password</label>
+                                            <input type="password" class="form-control" id="password" placeholder="Password" required>
                                             <div class="help-block text-right"><a href="">Forget the password ?</a></div>
                                             <div class="checkbox">
                                                 <label>
@@ -95,8 +85,9 @@
                                         </div>
                                         <h4 class="login-register-dropdown"><b>Or login with </b></h4>
                                         <div class="social-buttons">
-                                            <a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-                                            <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+                                            <a href="#" class="btn btn-fb social-button-google"><i class="fab fa-google"></i> Google</a>
+                                            <a href="#" class="btn btn-fb social-button-facebook"><i class="fa fa-facebook"></i> Facebook</a>
+                                            <a href="#" class="btn btn-tw social-button-twitter"><i class="fa fa-twitter"></i> Twitter</a>
                                         </div>
                                     </form>
                                 </div>
@@ -118,10 +109,10 @@
         <div id="movie-shop-carousel" class="carousel slide" data-interval="false">
             <!-- Indicators -->
             @*<ol class="carousel-indicators">
-                <li data-target="#movie-shop-carousel" data-slide-to="0" class="active data-slide-to-dot"></li>
-                <li data-target="#movie-shop-carousel" data-slide-to="1" class="data-slide-to-dot"></li>
-                <li data-target="#movie-shop-carousel" data-slide-to="2" class="data-slide-to-dot"></li>
-            </ol>*@
+                    <li data-target="#movie-shop-carousel" data-slide-to="0" class="active data-slide-to-dot"></li>
+                    <li data-target="#movie-shop-carousel" data-slide-to="1" class="data-slide-to-dot"></li>
+                    <li data-target="#movie-shop-carousel" data-slide-to="2" class="data-slide-to-dot"></li>
+                </ol>*@
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner inner-carousel">
@@ -183,7 +174,6 @@
                         </div>
 
                     </div> <!-- Carouse 1 - Row 1 -->
-
                     <!----- Carouse 1 - Row 2 - Start ----->
                     <div class="row row-col-3 justify-content-evenly" style="padding-bottom :2.5%;">
 
@@ -387,7 +377,7 @@
                                 <p class="card-text">Director: @movie.ElementAt(0).Director</p>
                                 <p class="card-text">Year: @movie.ElementAt(0).RealYear</p>
                                 <p class="card-text">Price: SEK @movie.ElementAt(0).Price</p>
-                                <a href="#" class="btn btn-primary movie-shop-buy-btn"price="@movie.ElementAt(0).Price" name="@movie.ElementAt(0).Title" id="@id">Add to Cart</a>
+                                <a href="#" class="btn btn-primary movie-shop-buy-btn" price="@movie.ElementAt(0).Price" name="@movie.ElementAt(0).Title" id="@id">Add to Cart</a>
                             </div>
                         </div>
 
@@ -424,13 +414,24 @@
     </div>
 
 
+    <!-----------------  Need to pass the session ID to the Java Script and pass the  databack to Shopping cart -->
+    <div id="sessionid" sessionid='@Request.RequestContext.HttpContext.Session["ID"]' style="width:0; height:0;" hidden></div>
+    <div style="width:0; height:0;" hidden>
+        @using (Html.BeginForm("ShoppingCart", "Customers", FormMethod.Post))
+        {
+            @:ShoppingList <input type="text" name="ShoppingList" id="ShoppingList" />
+            <input id="SubmitShoppingList" type="submit" hello="Hello I Exists!"/>
+        }
+    </div>
 
 
 
     <!------------------------- Carousel End --------------------------------------------->
 
 
-    <footer class="credit"></footer>
+    <footer>
+        &copy; @DateTime.Today.Year Movie Shop Inc.
+    </footer>
 
     <!-- jQuery -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
