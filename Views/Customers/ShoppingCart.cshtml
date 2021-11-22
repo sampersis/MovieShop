@@ -77,9 +77,9 @@
                         <td id="quantitytd">@ViewBag.Collection[i][0]</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-secondary btn-danger btn-minus" style="font-weight:bold;" id="@BtnIdMinus" onclick="ChangeQty('@BtnIdMinus')">-</button>
-                                <button type="button" class="btn btn-secondary btn-quantity" style="font-weight:bold;" id="@BtnIdQuantity">@ViewBag.Collection[i][1]</button>
-                                <button type="button" class="btn btn-secondary btn-success btn-plus" style="font-weight: bold;" id="@BtnIdPlus" onclick="ChangeQty('@BtnIdPlus')">+</button>
+                                <button type="button" class="btn btn-secondary btn-danger btn-minus" id="@BtnIdMinus" onclick="ChangeQty('@BtnIdMinus')">-</button>
+                                <button type="button" class="btn btn-secondary btn-quantity" id="@BtnIdQuantity">@ViewBag.Collection[i][1]</button>
+                                <button type="button" class="btn btn-secondary btn-success btn-plus" id="@BtnIdPlus" onclick="ChangeQty('@BtnIdPlus')">+</button>
                             </div>
                         </td>
                         <td id="price">@ViewBag.Collection[i][2]</td>
@@ -88,14 +88,24 @@
                     TotalSum += Int32.Parse(@ViewBag.Collection[i][3]);
                 }
 
-                <tr style="font-weight:bold;">
+                <tr id="total-sum" style="font-weight:bold;">
                     <td colspan="2">Total Sum</td>
                     <td></td>
                     <td id="totalsum">@TotalSum</td>
                 </tr>
 
+                <tr id="cancel-buy-buttond" style="font-weight:bold;">
+                    <td colspan="2"><span class="btn btn-danger btn-lg" id="cancel-order-btn">@Html.ActionLink("Cancel Order", "MovieShop", "Customers")</span></td>
+                    <td></td>
+                    <td colspan="2"><a href="#" class="btn btn-success btn-lg pull-right">Place Order</a></td>
+                </tr>
+
             </tbody>
         </table>
+    </div>
+
+    <div style="text-align: center;">
+
 
     </div>
 

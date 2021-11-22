@@ -78,6 +78,9 @@
     background-color: transparent;
 }
 
+.carousel-card-image:hover {
+}
+
 .card-text {
     text-align: left;
     padding-left: 30px;
@@ -131,7 +134,7 @@
 }
 
 #shopping-cart-table-header {
-    display: table-cell;
+   display: table-row;
 }
 
 #shopping-cart-table-header-title {
@@ -223,3 +226,13 @@
     font-size: 2rem;
     font-weight: bold;
 }
+
+.btn-minus, .btn-plus, .btn-quantity, #total-sum {
+    font-weight: bold;
+}
+
+#cancel-order-btn > a {
+    text-decoration: none;
+    color: white;
+}
+

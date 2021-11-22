@@ -94,7 +94,7 @@ $(".movie-shop-buy-btn").on('click', function () {
 
         // Add the table header
         var ShoppingItem =
-            "<thead class='thead-dark'><tr id='shopping-cart-table-header'>" +
+            "<thead id='shopping-cart-table-header' style='width:360px;'><tr>" +
             "<th id='shopping-cart-table-header-title'>Title</th>" +
             "<th id='shopping-cart-table-header-number'>Quantity</th>" +
             "<th id='shopping-cart-table-header-price'>Price</th>" +
@@ -184,6 +184,8 @@ function AddItemToShoppingCart(item) {
         }
 }
 
+
+// -------------------------------------------- Check Out Page ---------------------------------------------------//
 // Handling of Quantity on Checkout page
 function ChangeQty(id) {
     let index = 0;
@@ -204,19 +206,22 @@ function ChangeQty(id) {
 
     // Change the value of Quantity Button
     let Value = parseInt(BtnQty.innerText, 10);
+    let QtyVal = 0; // To keep the current value of Quantity Button
     if (btn.innerText == "+") {
         if (Value >= 0 && Value < 3) {
             Value++;
+            QtyVal = Value;
         }
     }
     else {
         if (Value > 0) {
             Value--;
+            QtyVal = Value;
         }
     }
 
     BtnQty.innerText = Value;
-    console.log("Plus button: " + Value);
+    console.log("Value: " + Value);
 
     //Get the value of Price column
     console.log("Next --> " + $(BtnQty).next());
@@ -236,5 +241,19 @@ function ChangeQty(id) {
     var totalSum = document.querySelector("#totalsum");
     Value = parseInt($(totalSum).text(), 10) + parseInt($(sum).text(), 10) - oldValue;
     $(totalSum).text(Value);
+
+    // Remove movie if count = 0
+    if (QtyVal == 0) {
+
+        var response = confirm("Do you want to remove the movie from your shopping list?");
+        if (response == true) {
+            console.log("Response " + response);
+            $(parent).parent().hide();
+        }
+    }
 }
+
+
+
+
 
