@@ -1,7 +1,6 @@
 ﻿
 @{
     Layout = null;
-    List<string[]> shopping = Session["ShoppingCart"] as List<string[]>;
 }
 
 @using System.Text.RegularExpressions;
@@ -45,9 +44,9 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <h1>@Session["ID"]</h1>
+    @*<h1>@Session["ID"]</h1>
     <h3>@DateTime.Today</h3>
-    <h6>@Session["ShoppingCart"]</h6>
+    <h6>@Session["ShoppingCart"]</h6>*@
 
     <div class="container" style="margin-top:5%">
         <table class="table table-striped">
@@ -59,7 +58,10 @@
             </tr>
             <tbody>
 
-                @{ int TotalSum = 0;
+                @{
+                    //string[][] shopping = Session["ShoppingCart"];
+
+                    int TotalSum = 0;
                     string BtnId = "";
                     string BtnIdPlus = "";
                     string BtnIdMinus = "";
@@ -75,9 +77,9 @@
                         <td id="quantitytd">@ViewBag.Collection[i][0]</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-secondary btn-minus" id="@BtnIdMinus" onclick="ChangeQty('@BtnIdMinus')">-</button>
-                                <button type="button" class="btn btn-secondary btn-quantity" id="@BtnIdQuantity">@ViewBag.Collection[i][1]</button>
-                                <button type="button" class="btn btn-secondary btn-plus" id="@BtnIdPlus" onclick="ChangeQty('@BtnIdPlus')">+</button>
+                                <button type="button" class="btn btn-secondary btn-danger btn-minus" style="font-weight:bold;" id="@BtnIdMinus" onclick="ChangeQty('@BtnIdMinus')">-</button>
+                                <button type="button" class="btn btn-secondary btn-quantity" style="font-weight:bold;" id="@BtnIdQuantity">@ViewBag.Collection[i][1]</button>
+                                <button type="button" class="btn btn-secondary btn-success btn-plus" style="font-weight: bold;" id="@BtnIdPlus" onclick="ChangeQty('@BtnIdPlus')">+</button>
                             </div>
                         </td>
                         <td id="price">@ViewBag.Collection[i][2]</td>
@@ -86,7 +88,7 @@
                     TotalSum += Int32.Parse(@ViewBag.Collection[i][3]);
                 }
 
-                <tr>
+                <tr style="font-weight:bold;">
                     <td colspan="2">Total Sum</td>
                     <td></td>
                     <td id="totalsum">@TotalSum</td>
