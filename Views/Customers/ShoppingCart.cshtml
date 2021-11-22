@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+    List<string[]> shopping = Session["ShoppingCart"] as List<string[]>;
+}
+
+@using System.Text.RegularExpressions;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie Shop | Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+
+    <script src="https://kit.fontawesome.com/64e875fda5.js" crossorigin="anonymous"></script>
+
+    <!-- CSS Style Sheets -->
+    <link rel="stylesheet" href="~/Content/movieshoppage.css">
+</head>
+<body id="shopping-cart-body">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
+                </button>
+                <img class="company-logo" src="~/Iamges/OldFilmCamera.png" />
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li style="font-weight:bold;">@Html.ActionLink("Movie Shop", "MovieShop", "Customers")</li>
+                    @*<li class="active" style="font-weight:bold;">@Html.ActionLink("Contact", "Contact", "Customers")</li>*@
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <h1>@Session["ID"]</h1>
+    <h3>@DateTime.Today</h3>
+    <h6>@Session["ShoppingCart"]</h6>
+
+    <div class="container" style="margin-top:5%">
+        <table class="table table-striped">
+            <tr colspan="4" align="center">
+                <th>Title</th>
+                <th>Qty</th>
+                <th>Price (SEK)</th>
+                <th>Sum (SEK)</th>
+            </tr>
+            <tbody>
+
+                @{ int TotalSum = 0;
+                    string BtnId = "";
+                    string BtnIdPlus = "";
+                    string BtnIdMinus = "";
+                    string BtnIdQuantity = "";}
+
+                @for (int i = 0; i < ViewBag.Collection.Length; i++)
+                {
+                    BtnId = Regex.Replace(@ViewBag.Collection[i][0], @"[^A-Za-z]+", "");
+                    BtnIdPlus = BtnId + "Plus";
+                    BtnIdMinus = BtnId + "Minus";
+                    BtnIdQuantity = BtnId + "QTY";
+                    <tr>
+                        <td id="quantitytd">@ViewBag.Collection[i][0]</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-secondary btn-minus" id="@BtnIdMinus" onclick="ChangeQty('@BtnIdMinus')">-</button>
+                                <button type="button" class="btn btn-secondary btn-quantity" id="@BtnIdQuantity">@ViewBag.Collection[i][1]</button>
+                                <button type="button" class="btn btn-secondary btn-plus" id="@BtnIdPlus" onclick="ChangeQty('@BtnIdPlus')">+</button>
+                            </div>
+                        </td>
+                        <td id="price">@ViewBag.Collection[i][2]</td>
+                        <td id="totalprice">@ViewBag.Collection[i][3]</td>
+                    </tr>
+                    TotalSum += Int32.Parse(@ViewBag.Collection[i][3]);
+                }
+
+                <tr>
+                    <td colspan="2">Total Sum</td>
+                    <td></td>
+                    <td id="totalsum">@TotalSum</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <!-- Bootstrap JS -->
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+    <script src="~/Scripts/movieshop.js"></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+﻿body {
+    /*    background-image: src('~/Iamges/bg-admin-login-page.jpg');*/
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-default {
+    background-color: #F8F8F8;
+    border-color: #E7E7E7;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    color: darkgrey;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.company-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.nav-item:hover {
+    color:red;
+}
+
+.movie-shop-shopping-cart-btn, .movie-shop-shopping-login-btn {
+    background-color: transparent;
+    border: none;
+    color: darkgrey;
+    margin: 0 auto 0 auto;
+}
+
+.movie-shop-shopping-login-btn {
+    margin: 8px auto 0 auto;
+    font-size: 2rem;
+}
+
+.movie-shop-shopping-login-btn:hover {
+    color: black;
+}
+
+.movie-shop-shopping-cart-icon {
+    font-size: 2rem;
+    color: darkgrey;
+    padding-top: 5px;
+}
+
+.movie-shop-shopping-cart-icon:hover {
+    color: black;
+}
+
+
+.movie-shop-shopping-cart-badge {
+    background-color: lightgrey;
+}
+
+.drop-down-login {
+    width: 300px;
+    padding: 10px 10px 10px 10px;
+}
+
+.login-register-dropdown {
+    text-align: center;
+    color: darkgoldenrod;
+}
+
+.movie-shop-menu-item:hover {
+    color: black;
+}
+
+.shopping-cart-items {
+    padding: 40px;
+}
+
+.carousel-card-image {
+    max-width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.card-text {
+    text-align: left;
+    padding-left: 30px;
+}
+
+.movie-shop-buy-btn{
+    padding-top: 3px;
+}
+
+.carousel-card-div {
+    width: 250px;
+    height: 240px;
+    background-color: transparent;
+    text-align: center;
+}
+
+.data-slide-to-dot {
+    color: green;
+}
+
+.carousel-control-arrow {
+    color: black;
+}
+
+.baseBlock:hover {
+    -webkit-transform: translate(0, -8px);
+    -moz-transform: translate(0, -8px);
+    -ms-transform: translate(0, -8px);
+    -o-transform: translate(0, -8px);
+    transform: translate(0, -8px);
+    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-container {
+    margin-top: auto;
+}
+
+.inner-carousel {
+    margin: 5% auto 5% auto;
+    padding: 4% 0 12.5% 20%;
+    background-color: lightgrey;
+}
+
+#shopping-cart-table {
+    width: 100%;
+    height: 100%;
+    display: table;
+    text-align: left;
+     padding: 20px;
+     color:black;
+}
+
+#shopping-cart-table-header {
+    display: table-cell;
+}
+
+#shopping-cart-table-header-title {
+    width: 300px;
+}
+
+#shopping-cart-table-header-number {
+    width: 100px;
+}
+
+#shopping-cart-table-header-price, #shopping-cart-table-header-sum {
+    width: 200px;
+}
+
+.card-text {
+    line-height:1rem;
+}
+
+#register-button{
+    list-style-type: none;
+    text-decoration: none;
+    color: white;
+}
+
+#register-button:hover {
+    text-decoration: none;
+}
+
+.social-button-google {
+    font-size: 1.25rem;
+    background: -webkit-linear-gradient(45deg, red, yellow, green, blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.social-button-facebook {
+    font-size: 1.25rem;
+    color:blue;
+}
+
+.social-button-twitter {
+    font-size: 1.25rem;
+    color: lightblue;
+}
+
+.map-address-container {
+    margin: 0 auto 0 auto;
+}
+.contact-container {
+    width: 30%;
+    margin: 2.5% auto 0 auto;
+    padding: 2%;
+    background-color: lightgrey;
+    border: solid 5px grey;
+    border-radius: 10px;
+}
+
+.google-map-div {
+    width: 50%;
+    height: 550px;
+    margin: 0 auto 2.5% auto;
+    border: solid 5px grey;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.google-map-iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.contact-address {
+    width: 25%;
+    height: 400px;
+    margin: 8% auto 2.5% 2%;
+    padding: 35px 0 0 25px;
+    border: solid 5px grey;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    transform: rotateX(25deg);
+    transform: rotateY(30deg);
+    transform: rotateZ(20deg);
+}
+
+.contact-address > h4 {
+    font-size: 2rem;
+    font-weight: bold;
+}

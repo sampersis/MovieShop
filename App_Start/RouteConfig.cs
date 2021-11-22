@@ -16,6 +16,13 @@ namespace MovieShop
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Customers", action = "MovieShop", id = UrlParameter.Optional }
+            //defaults: new { controller = "Customers", action = "MovieShop", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Admin",
+                url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Admin", action = "AdminLoginPage", id = UrlParameter.Optional }
                 //defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );

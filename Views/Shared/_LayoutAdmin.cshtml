@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Movie Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@200;300;400;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/64e875fda5.js" crossorigin="anonymous"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+        <div class="admin-page-navbar navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <p>
+                        @Html.ActionLink("Movie Shop - Admin Page", "AdminLoginPage", "Admin", new { area = "" }, new { @class = "navbar-brand" })
+                    </p>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @*<li class="admin-menu-item disabled">@Html.ActionLink("Customer Admin", "CustomerAdminPage", "Admin")</li>
+                        <li class="admin-menu-item disabled">@Html.ActionLink("Movie Admin", "MovieAdminPage", "Admin")</li>
+                        <li class="admin-menu-item disabled">@Html.ActionLink("Order Admin", "OrderAdminPage", "Admin")</li>*@
+                        <li class="admin-menu-item">@Html.ActionLink("Customer Admin", "CustomerAdminPage", "Admin")</li>
+                        <li class="admin-menu-item">@Html.ActionLink("Movie Admin", "MovieAdminPage", "Admin")</li>
+                        <li class="admin-menu-item">@Html.ActionLink("Order Admin", "OrderAdminPage", "Admin")</li>
+                    </ul>
+                    @*@Html.Partial("_LoginPartial")*@
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer class="footer">
+                <p>&copy; @DateTime.Now.Year - Movie Shop Inc.</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>
