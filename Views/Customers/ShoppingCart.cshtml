@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<MovieShop.Models.Customers>
 @{
     Layout = null;
 }
@@ -44,13 +44,10 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    @*<h1>@Session["ID"]</h1>
-    <h3>@DateTime.Today</h3>
-    <h6>@Session["ShoppingCart"]</h6>*@
 
-    <div class="container" style="margin-top:5%">
+    <div class="container" id="order-detail-containter" style="margin-top:5%">
         <table class="table table-striped">
-            <tr colspan="4" align="center">
+            <tr align="center">
                 <th>Title</th>
                 <th>Qty</th>
                 <th>Price (SEK)</th>
@@ -96,23 +93,102 @@
 
                 <tr id="cancel-buy-buttond" style="font-weight:bold;">
                     <td colspan="2"><span class="btn btn-danger btn-lg" id="cancel-order-btn">@Html.ActionLink("Cancel Order", "MovieShop", "Customers")</span></td>
-                    <td></td>
-                    <td colspan="2"><a href="#" class="btn btn-success btn-lg pull-right">Place Order</a></td>
+                    <td colspan="2"><a href="#" class="btn btn-success btn-lg pull-right" onclick="hideOrderDetailContainter()">Place Order</a></td>
                 </tr>
 
             </tbody>
         </table>
     </div>
 
-    <div style="text-align: center;">
+    <div class="container" id="place-order-container">
+        <h1 class="bg-success" id="customer-order-registration-header">Order Registration</h1>
 
+        <div id="order-symmary">
+            <div class="bg-success" id="order-symmary-div-h3"><h3 >Order Summary</h3></div>
+            <div id="order-symmary-div-h4"><h4>Your order value: <b>SEK</b> <span id="order-registration-total-sum"><b>@TotalSum</b></span></h4></div>
+        </div>
 
-    </div>
+        <div class="container" id="order-registration">
+            <div class=" d-flex flex-row form-group col-md-6" id="customer-details">
+                <div class="bg-success" id="billing-information"><h3>Billing Information</h3></div>
+                <div id="customer-details-form">
+                    <label class="label label-info" for="customer-first-name">First Name</label>
+                    <input type="text" class="form-control" id="customer-first-name" placeholder="First Name">
+
+                    <label class="label label-info" for="customer-last-name">Last Name</label>
+                    <input type="text" class="form-control" id="customer-last-name" placeholder="Last Name">
+
+                    <label class="label label-info" for="customer-email">Email address</label>
+                    <input type="email" class="form-control" id="customer-email" placeholder="firstname.secondname@movieshop.com">
+
+                    <label class="label label-info" for="customer-phone-name">Telephone</label>
+                    <input type="tel" class="form-control" id="customer-phone-name" placeholder="Phone">
+
+                    <label class="label label-info" for="customer-billing-address">Billing address</label>
+                    <input type="text" class="form-control" id="customer-billing-address" placeholder="Street and Street number">
+                    <input type="text" class="form-control" id="customer-billing-zip" placeholder="Zip code">
+                    <input type="text" class="form-control" id="customer-billing-city" placeholder="City">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="shipping-address-check">
+                        <label class="form-check-label" for="shipping-address-check">
+                            Check here if the shipping address and billing address are the same
+                        </label>
+                    </div>
+
+                    <label class="label label-info" for="customer-shipping-address">Shipping address</label>
+                    <input type="text" class="form-control" id="customer-shipping-address" placeholder="Street and Street number">
+                    <input type="text" class="form-control" id="customer-shipping-zip" placeholder="Zip code">
+                    <input type="text" class="form-control" id="customer-shipping-city" placeholder="City">
+                </div>
+            </div>
+
+            <div class="row col-md-5" id="payment-details-row">
+                <div class="form-group col-md-5" id="payment-details">
+                    <div class="bg-success" id="payment-information"><h3>Payment Information</h3></div>
+                    <div id="payment-details-form">
+                        <ul>
+                            <li id="payment-alternative">
+                                <input class="form-check-input" type="checkbox" value="" id="credit-card">
+                                <label class="form-check-label" for="credit-card">Credit Card</label>
+                            </li>
+                            <li id="payment-alternative">
+                                <input class="form-check-input" type="checkbox" value="" id="direct-bank-payment">
+                                <label class="form-check-label" for="direct-bank-payment">Direct Bank Payment</label>
+                            </li>
+                            <li id="payment-alternative">
+                                <input class="form-check-input" type="checkbox" value="" id="paypal">
+                                <label class="form-check-label" for="paypal">Paypal</label>  
+                            </li>
+                            <li id="payment-alternative">
+                                <input class="form-check-input" type="checkbox" value="" id="swish">
+                                <label class="form-check-label" for="swish">Swish</label>
+                            </li>
+                        </ul>
+                        <img id="payment-information-img" src="~/Iamges/payment-methods-transparent-trust-badges-shopify.png" />
+                    </div>
+                </div>
+            <div class="col-md-5" id="cancel-or-place-order-btngrp">
+                <table>
+                    <tr>
+                        <td colspan="2"><span class="btn btn-danger btn-md" id="cancel-order-button">@Html.ActionLink("Cancel Order", "MovieShop", "Customers")</span></td>
+                        <td colspan="2"><span class="btn btn-info btn-md" id="view-order-details-button" onclick="hideOrderDetailContainter()">Order details</span></td>
+                        <td colspan="2"><span class="btn btn-success btn-md" id="place-order-button" onclick="">Place details</span></td>
+                    </tr>
+                </table>
+            </div>
+            </div>
+        </div>
+
+ </div>
 
     <!-- jQuery -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <!-- Bootstrap JS -->
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
     <script src="~/Scripts/movieshop.js"></script>
+    <script>
+        $("#place-order-container").hide();
+    </script>
 </body>
 </html>

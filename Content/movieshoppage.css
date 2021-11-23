@@ -236,3 +236,116 @@
     color: white;
 }
 
+.order-summary-table{
+margin: 2% auto 50px auto;
+padding: 0;
+}
+
+.label {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+#customer-order-registration-header {
+    padding-left: 10px;
+}
+#order-symmary, #customer-order-registration-header, #payment-details, #customer-details {
+    border: solid 2px green;
+}
+
+#order-symmary {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+    height: 100px;
+}
+#order-symmary-div-h3 {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    vertical-align: middle;
+    border-bottom: solid 2px green;
+    padding: 0 0 10px 10px;
+}
+#order-symmary-div-h4 {
+    margin-top: 60px;
+    padding-left: 10px;
+    height: 50%;
+    width: 100%;
+}
+
+#order-registration {
+padding-left: 0px;
+}
+
+#customer-details {
+    padding-left:0px;
+    padding-right: 0px;
+}
+
+#billing-information {
+    border-bottom: solid 2px green;
+    margin-top: -20px;
+    margin-left: 0;
+}
+
+#payment-details {
+width: 100%;
+}
+#payment-information {
+    border-bottom: solid 2px green;
+    width: 100%;
+    margin-top: -4.3%;
+}
+
+#customer-details-form {
+    padding: 10px 20px 10px 20px;
+}
+
+#payment-details-row {
+    margin-right : 20px;
+    float:right;
+    padding-left:0;
+    overflow:hidden;
+}
+
+#payment-details {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 20px;
+}
+
+#payment-details-form {
+    padding: 10px 20px 10px 20px;
+}
+
+#payment-alternative {
+    list-style-type:none;
+}
+
+#payment-information-img {
+    width: 50%;
+}
+
+#cancel-or-place-order-btngrp {
+    padding-left: 0;
+}
+#cancel-order-button, #view-order-details-button {
+    margin-right: 57px;
+}
+
+#cancel-order-button > a {
+    text-decoration: none;
+    color: white;
+}
+
+
+#place-order-button {
+    margin-right: 20px;
+}

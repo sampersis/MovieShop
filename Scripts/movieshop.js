@@ -21,6 +21,8 @@ $(function () { $("#shopping-cart-table").hide(); });
 
 
 
+
+
 // Toggle shopping cart
 $(".movie-shop-shopping-cart-btn").on('click', function () {
     $("#shopping-cart-table-header-title").css("width", "300px");
@@ -94,7 +96,7 @@ $(".movie-shop-buy-btn").on('click', function () {
 
         // Add the table header
         var ShoppingItem =
-            "<thead id='shopping-cart-table-header' style='width:360px;'><tr>" +
+            "<thead id='shopping-cart-table-header'><tr>" +
             "<th id='shopping-cart-table-header-title'>Title</th>" +
             "<th id='shopping-cart-table-header-number'>Quantity</th>" +
             "<th id='shopping-cart-table-header-price'>Price</th>" +
@@ -186,6 +188,7 @@ function AddItemToShoppingCart(item) {
 
 
 // -------------------------------------------- Check Out Page ---------------------------------------------------//
+
 // Handling of Quantity on Checkout page
 function ChangeQty(id) {
     let index = 0;
@@ -202,11 +205,11 @@ function ChangeQty(id) {
     var btnQtyId = BtnId.substring(0, index) + "QTY";
     console.log(btnQtyId);
     var BtnQty = document.querySelector(btnQtyId);
-    console.log(BtnQty.innerHTML);
+    console.log("Value of BtnQty before change: " + BtnQty.innerHTML);
 
     // Change the value of Quantity Button
     let Value = parseInt(BtnQty.innerText, 10);
-    let QtyVal = 0; // To keep the current value of Quantity Button
+    let QtyVal; // To keep the current value of Quantity Button
     if (btn.innerText == "+") {
         if (Value >= 0 && Value < 3) {
             Value++;
@@ -221,7 +224,7 @@ function ChangeQty(id) {
     }
 
     BtnQty.innerText = Value;
-    console.log("Value: " + Value);
+    console.log("Value of BtnQty after change: " + BtnQty.innerText);
 
     //Get the value of Price column
     console.log("Next --> " + $(BtnQty).next());
@@ -250,10 +253,17 @@ function ChangeQty(id) {
             console.log("Response " + response);
             $(parent).parent().hide();
         }
+
+        $("#order-registration-total-sum").html("<b>" + Value + "</b>");
     }
 }
 
 
-
+// Hide shopping list details
+function hideOrderDetailContainter() {
+   /* console.log("Hidden: " + document.getElementById("#placeOrderContainer").getAttribute("hidden"));*/
+    $("#order-detail-containter").slideToggle("slow");
+    $("#place-order-container").slideToggle("slow");
+}
 
 
