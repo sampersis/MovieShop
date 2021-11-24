@@ -309,7 +309,7 @@ width: 100%;
 }
 
 #payment-details-row {
-    margin-right : 20px;
+    margin-right : 0px;
     float:right;
     padding-left:0;
     overflow:hidden;
@@ -337,7 +337,7 @@ width: 100%;
     padding-left: 0;
 }
 #cancel-order-button, #view-order-details-button {
-    margin-right: 57px;
+    margin-right: 63px;
 }
 
 #cancel-order-button > a {
@@ -345,6 +345,10 @@ width: 100%;
     color: white;
 }
 
+#place-order-button > a {
+    text-decoration: none;
+    color: white;
+}
 
 #place-order-button {
     margin-right: 20px;

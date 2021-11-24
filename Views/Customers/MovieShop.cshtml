@@ -122,7 +122,7 @@
                     int numberofCarouselItems = length / 6;
                     int reminderOfCards = length % 6;
 
-                    if (reminderOfCards <= 3)
+                    if (reminderOfCards <= 3 && reminderOfCards != 0)
                     {
                         numberofRowsInthelastCarouselItem = 1;
                         numberofCarouselItems++;
@@ -203,7 +203,7 @@
         @using (Html.BeginForm("ShoppingCart", "Customers", FormMethod.Post))
         {
             @:ShoppingList <input type="text" name="ShoppingList" id="ShoppingList" />
-            <input id="SubmitShoppingList" type="submit" hello="Hello I Exists!" />
+            <input id="SubmitShoppingList" type="submit"/>
         }
     </div>
     <!------------------------- Carousel End --------------------------------------------->

@@ -14,13 +14,8 @@ class ShoppingItem
     }
 }
 
-
-
 // Hide the Shopping Cart Button at start-up
 $(function () { $("#shopping-cart-table").hide(); });
-
-
-
 
 
 // Toggle shopping cart
@@ -66,7 +61,6 @@ function checkOut() {
 
     // Write the string into hidden form
     $(document.querySelector("#ShoppingList")).val(ShoppingCartList);
-    console.log(document.querySelector("#SubmitShoppingList").getAttribute("hello"));
 
     // Create an autoclick even to POST the string to the Razor page
     var AutoClick = document.createEvent("MouseEvents");
@@ -254,16 +248,127 @@ function ChangeQty(id) {
             $(parent).parent().hide();
         }
 
+        // Needed to update the value of total sum on the Order Registration Page
         $("#order-registration-total-sum").html("<b>" + Value + "</b>");
     }
 }
 
+//Rest Order Registration Form
+function resetOrderRegistrationForm() {
+    $("#customer-first-name").val("");
+    $("#customer-last-name").val("");
+    $("#customer-email").val("");
+    $("#customer-phone").val("");
+    $("#customer-billing-address").val("");
+    $("#customer-billing-zip").val("");
+    $("#customer-billing-city").val("");
+    $("#customer-shipping-address").val("");
+    $("#customer-shipping-zip").val("");
+    $("#customer-shipping-city").val("");
+    if ($("#shipping-address-check").is(":checked") == true) {
+        $("#shipping-address-check").prop("checked", false);
+    }
+    if ($("#create-account").is(":checked") == true) {
+        $("#create-account").prop("checked", false);
+    }
+}
+
+function GetTheLatestShoppingList() {                          
+    var data = ""; //empty var;
+
+    //Here traverse and  read input/select values present in each td of each tr, ;
+    $("#shopping-table > tbody > tr").each(function () {
+            var Title = $(this).find("#movie-title").text();
+            var Qty = $(this).find(".btn-quantity").text();
+            var Price = $(this).find("#price").text();
+        var Sum = $(this).find("#totalprice").text();
+        if (Qty != "0") {
+            if (Title != '') { data += Title + "+"; }
+            if (Qty != '') { data += Qty + "+"; }
+            if (Price != '') { data += Price + "+"; }
+            if (Sum != '') { data += Sum + "|"; }
+        }
+    });
+
+    $(document.querySelector("#FinalShoppingList")).val(data);
+    console.log("data: " + $(document.querySelector("#FinalShoppingList")).val());
+}
 
 // Hide shopping list details
 function hideOrderDetailContainter() {
    /* console.log("Hidden: " + document.getElementById("#placeOrderContainer").getAttribute("hidden"));*/
     $("#order-detail-containter").slideToggle("slow");
+    $("#place-order-button").prop('disabled', true);
     $("#place-order-container").slideToggle("slow");
+
+    //Reset and clean from resude of last try to check out
+    resetOrderRegistrationForm();
+
+    //Get the latest shopping List
+    GetTheLatestShoppingList();
 }
 
+function shippingAddressCheck() {
+    if ($("#shipping-address-check").is(":checked") == true) {
+        console.log($("#customer-billing-address").val());
+        $("#customer-shipping-address").val($("#customer-billing-address").val());
+        $("#customer-shipping-zip").val($("#customer-billing-zip").val());
+        $("#customer-shipping-city").val($("#customer-billing-city").val());
+    }
+    else {
+        $("#customer-shipping-address").val("");
+        $("#customer-shipping-zip").val("");
+        $("#customer-shipping-city").val("");
+    }
+}
+
+function CreateAccount() {
+    if ($("#create-account").is(":checked") == true) {
+        $("#create-account").attr("value", "true");
+    }
+    else {
+        $("#create-account").attr("value", "false");
+    }
+}
+
+// Form validation. If the required fields are filled then enable the submit button otherwise diable it
+$("#customer-details").on("change input", function () {
+    console.log("Form Changed");
+    var requiredField = 0;
+
+    if ($("#customer-first-name").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-last-name").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-email").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-phone-name").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-billing-address").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-billing-zip").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-billing-city").val() != '') {
+        requiredField++;
+    }
+
+    if (requiredField == 7) {
+        $("#place-order-button").prop('disabled', false);
+    }
+    else {
+        $("#place-order-button").prop('disabled', true);
+    }
+});
 
