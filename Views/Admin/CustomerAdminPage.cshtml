@@ -1,10 +1,75 @@
-﻿
+﻿@model PagedList.IPagedList<MovieShop.Models.Customers>
+
+@using PagedList.Mvc;
+
 @{
-    ViewBag.Title = "Customer Admin Page";
+    ViewBag.Title = "CustomerAdminPage";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Customer Admin Page</h1>
+<h2>CustomerAdminPage</h2>
 
-<div style="text-align: center; margin: 5% auto 5% auto;">
-    <img src="~/Iamges/metin-seven-metin-seven-3d-animated-gif-animation-gears-cogwheels.gif" style="width:75%" />
-</div>
+<p>
+    @Html.ActionLink("Create New Customer", "CreateCustomer")
+</p>
+<table class="table table-striped create-customer-table">
+    <tr>
+            <th>Forename</th>
+            <th>Surname</th>
+            <th>Billing addr</th>
+            <th>Billing zip</th>
+            <th>Billing city</th>
+            <th>Delivery addr</th>
+            <th>Delivery zip</th>
+            <th>Delivery city</th>
+            <th>Email address</th>
+            <th>Phone no.</th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillingAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillingZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillingCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCustomer", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteCustomer", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("CustomerAdminPage",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

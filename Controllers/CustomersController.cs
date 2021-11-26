@@ -16,12 +16,16 @@ namespace MovieShop.Controllers
         public ApplicationDbContext MovieDB;
         public List<Movies> Movies;
         public List<Customers> Customers;
+        public List<Orders> Orders;
+        public List<OrderRows> OrderRows;
 
         public CustomersController()
         {
             MovieDB = new ApplicationDbContext();
             Movies = new List<Movies>();
             Customers = new List<Customers>();
+            Orders = new List<Orders>();
+            OrderRows = new List<OrderRows>();
         }
 
         //Load the Movie Shop
@@ -41,65 +45,6 @@ namespace MovieShop.Controllers
             }
         }
 
-        // GET: Customers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customers customers = MovieDB.Customers.Find(id);
-            if (customers == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customers);
-        }
-
-        // GET: Customers/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,BillingAddress,BillingZip,BillingCity,DeliveryAddress,DeliveryZip,DeliveryCity,EmailAddress,PhoneNo")] Customers customers)
-        {
-            if (ModelState.IsValid)
-            {
-                MovieDB.Customers.Add(customers);
-                MovieDB.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(customers);
-        }
-
-        public ActionResult Contact()
-        {
-            return View();
-        }
-
-        // GET: Customers/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customers customers = MovieDB.Customers.Find(id);
-            if (customers == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customers);
-        }
-
-
         [HttpPost]
         public ActionResult ShoppingCart()
         {
@@ -117,47 +62,125 @@ namespace MovieShop.Controllers
             return View();
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
+
+        internal string [][] ShoppingList(string shoppinglist)
+        {
+            string[] ShoppingCartItems = shoppinglist.Split('|');
+            string[][] ShoppingCartItem = new string[ShoppingCartItems.Length - 1][];
+
+            for (int i = 0; i < ShoppingCartItems.Length - 1; i++)
+            {
+                ShoppingCartItem[i] = ShoppingCartItems[i].Split('+');
+            }
+
+            return ShoppingCartItem;
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,BillingAddress,BillingZip,BillingCity,DeliveryAddress,DeliveryZip,DeliveryCity,EmailAddress,PhoneNo")] Customers customers)
+        public ActionResult PlaceOrder()
         {
-            if (ModelState.IsValid)
+            //// Get the form data from the form
+            Customers customer = new Customers()
             {
-                MovieDB.Entry(customers).State = EntityState.Modified;
+                FirstName = Request.Form["FirstName"],
+                LastName = Request.Form["LastName"],
+                EmailAddress = Request.Form["Email"],
+                PhoneNo = Request.Form["Phone"],
+                BillingAddress = Request.Form["BillingAdress"],
+                BillingZip = Request.Form["BillingZip"],
+                BillingCity = Request.Form["BillingCity"],
+                DeliveryAddress = (String.IsNullOrEmpty(Request.Form["ShippingAdress"])) ? Request.Form["BillingAdress"] : Request.Form["ShippingAdress"],
+                DeliveryZip = (String.IsNullOrEmpty(Request.Form["ShippingZip"])) ? Request.Form["BillingZip"] : Request.Form["ShippingZip"],
+                DeliveryCity = (String.IsNullOrEmpty(Request.Form["ShippingCity"])) ? Request.Form["BillingCity"] : Request.Form["ShippingCity"]
+            };
+            Orders order = new Models.Orders();
+            OrderRows orderRow = new OrderRows();
+            Boolean CreateAccount = Convert.ToBoolean(Request.Form["CreateAccountCheckBox"]);
+            String [][] shoppingList = ShoppingList(Request.Form["FinalShoppingList"]);
+
+            //// Insert Customer data in the database, if the customer does not exist
+            Session["ShoppingCart"] = ShoppingList(Request.Form["FinalShoppingList"]);
+            
+
+            //Check whether User has already an account in AspNetUsers
+            if (CreateAccount)
+            {
+
+            }
+
+            // Check whether user is already in Customers Table
+            var IsAlreadyCustomer = MovieDB.Customers.Where(c => c.FirstName == customer.FirstName &&
+            c.LastName == customer.LastName && c.EmailAddress == customer.EmailAddress &&
+            c.PhoneNo == customer.PhoneNo && c.BillingAddress == customer.BillingAddress &&
+            c.BillingZip == customer.BillingZip);
+
+            if (!IsAlreadyCustomer.Any())
+            {
+                MovieDB.Customers.Add(customer);
                 MovieDB.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(customers);
-        }
 
-        // GET: Customers/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
+            // Create Order in the database
+            Customers Customer = MovieDB.Customers.FirstOrDefault(c => c.FirstName == customer.FirstName &&
+            c.LastName == customer.LastName && c.EmailAddress == customer.EmailAddress &&
+            c.PhoneNo == customer.PhoneNo && c.BillingAddress == customer.BillingAddress &&
+            c.BillingZip == customer.BillingZip);
+
+
+            if (Customer != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                order.CustomerId = Customer.Id;
+                order.OrderDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                MovieDB.Orders.Add(order);
+                MovieDB.SaveChanges();
+
+                // Populate the OrderRow Table
+                order = MovieDB.Orders.FirstOrDefault(o => o.CustomerId == Customer.Id);
+
+                for (int i=0; i < shoppingList.Length; i++)
+                {
+                    string movieTitle = shoppingList[i][0];
+                    string moviePrice = shoppingList[i][3];
+                    Movies movie = (Movies)MovieDB.Movies.FirstOrDefault(m => m.Title == movieTitle);
+
+                    if (movie != null)
+                    {
+                        orderRow.OrderId = order.Id;
+                        orderRow.MovieId = movie.Id;
+                        orderRow.Price = Convert.ToDouble(moviePrice);
+
+                        MovieDB.OrderRows.Add(orderRow);
+                        MovieDB.SaveChanges();
+                    }
+                    else
+                    {
+                        // Throw an Error
+                    }
+                }
             }
-            Customers customers = MovieDB.Customers.Find(id);
-            if (customers == null)
+            else
             {
-                return HttpNotFound();
+                // Throw an error
             }
-            return View(customers);
-        }
 
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Customers customers = MovieDB.Customers.Find(id);
-            MovieDB.Customers.Remove(customers);
-            MovieDB.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
+            // Load a page with the Order Details
+            string prefixZeroStr = "";
+            int lengthOfOrderId = order.Id.ToString().Length;
+            int numberofZeros = 10 - lengthOfOrderId;
+            for (int i = 0; i < numberofZeros; i++) prefixZeroStr += "0";
+            ViewBag.OrderId = prefixZeroStr+order.Id;
+            ViewBag.Date = order.OrderDate;
+            ViewBag.Customer = Customer;
+            ViewBag.Payment = "Master Card";
+            ViewBag.FinalShoppingList = Session["ShoppingCart"];
+
+            return View();
+        }
     }
 }

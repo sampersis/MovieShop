@@ -1,0 +1,164 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie Shop | Contact</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+
+
+    <script src="https://kit.fontawesome.com/64e875fda5.js" crossorigin="anonymous"></script>
+
+    <!-- CSS Style Sheets -->
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="~/Content/movieshoppage.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
+                </button>
+                <img class="company-logo" src="~/Iamges/OldFilmCamera.png" />
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li style="font-weight:bold;">@Html.ActionLink("Movie Shop", "MovieShop", "Customers")</li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container" style="border:solid 5px grey; border-radius:10px;">
+        <table class="table table-striped" id="invoice-table">
+            <caption><h1 style=" background-color:grey; color:white;">Movie Shop</h1></caption>
+            <thead>
+                <tr id="customer-order-details" style="height: 200px;">
+                    <td class="col-md-4">
+                        <h5>@ViewBag.Customer.FirstName @ViewBag.Customer.LastName</h5>
+                        <h5>@ViewBag.Customer.BillingAddress</h5>
+                        <h5>@ViewBag.Customer.BillingZip @ViewBag.Customer.BillingCity</h5>
+                        <h5>@ViewBag.Customer.EmailAddress</h5>
+                    </td>
+                    <td class="col-md-2"></td>
+                    <td class="col-md-2">
+                        <h5><b>Order Id:</b></h5>
+                        <h5><b>Customer Id:</b></h5>
+                        <h5><b>Order date:</b></h5>
+                        <h5><b>Payment Method:</b></h5>
+                    </td>
+                    <td class="col-md-1">
+                        @{
+                            string CustomerId = "";
+                            int CustomerIdLength = ViewBag.Customer.Id.ToString().Length;
+                            int numberÓfZeroStrLength = 10 - CustomerIdLength;
+
+                            for (int i = 0; i < numberÓfZeroStrLength; i++)
+                            {
+                                CustomerId += "0";
+                            }
+
+                            CustomerId += ViewBag.Customer.Id;
+                        }
+
+                        <h5>@ViewBag.OrderId</h5>
+                        <h5>@CustomerId</h5>
+                        <h5>@ViewBag.Date.ToString("yyyy'-'MM'-'dd")</h5>
+                        <h5>@ViewBag.Payment</h5>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Titel</b></td>
+                    <td><b>Qty</b></td>
+                    <td><b>Price (SEK)</b></td>
+                    <td><b>Sum (SEK)</b></td>
+                </tr>
+                @{
+                    decimal TotalSum = 0;
+                    double VAT = 0;
+                    decimal Sum = 0;
+                    foreach (var movie in ViewBag.FinalShoppingList)
+                    {
+                        Sum = Convert.ToDecimal(@movie[3]);
+                        <tr>
+                            <td>@movie[0] </td>
+                            <td>@movie[1] </td>
+                            <td>@movie[2]</td>
+                            <td>@Sum.ToString("0.00")</td>
+                        </tr>
+
+                        TotalSum += Convert.ToDecimal(@movie[3]);
+                        VAT = (double)TotalSum * 0.2;
+                    }
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><b>Total Sum (SEK)</b></td>
+                    <td><b>@TotalSum.ToString("0.00")</b></td>
+                </tr>
+                <tr style="height:50px;">
+                    <td></td>
+                    <td></td>
+                    <td><b>VAT (SEK)</b></td>
+                    <td><b>@VAT.ToString("0.00")</b></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="3">
+                        <ol>
+                            <li>
+                                For distance sales (Internet / mail order / telephone order) you have as
+                                consumer 14 days right of withdrawal on this purchase. This does not apply to complaint exchanges
+                                business acquisitions or purchases made by companies.
+                            </li>
+                            <li>
+                                The proof of purchase must be presented in connection with the use of the right of complaint.
+                            </li>
+                        </ol>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" colspa>
+                        <p style=" color:maroon; font-size: 1rem;">
+                            Movie Shop Inc. - Kungliga slottet - 10770 Stockholm - Sweden -
+                            <i class="fas fa-phone-square"></i>: 08-333444555 -
+                            <i class="fas fa-at"></i>: contact@movieshop.com -
+                            <i class="fas fa-globe"></i>: https://www.movieshop.com -
+                            VAT-number: 123456789-25
+                        </p>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <footer class="text-center">
+        <div class="text-center p-3">
+            &copy; @DateTime.Today.Year Movie Shop Inc. - Kungliga slottet - 10770 Stockholm - Sweden -
+            <i class="fas fa-phone-square"></i>: 08-333444555 -
+            <i class="fas fa-at"></i>: contact@movieshop.com -
+            <i class="fas fa-globe"></i>: https://www.movieshop.com -
+            VAT-number: 123456789-25
+        </div>
+    </footer>
+</body>
+</html>

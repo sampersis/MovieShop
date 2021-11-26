@@ -14,11 +14,18 @@ class ShoppingItem
     }
 }
 
+// CTRL+PageUp directs to Admin Pages and CTRL+PageDown directs to Shop pages
+Mousetrap.bind('shift+alt+a', function (e) {
+    console.log('shift+alt+a');
+    /*    window.location.href = "/Admin/MovieAdminPage";*/
+    window.open("/Admin/AdminLoginPage");
+    return false;
+});
+
 
 
 // Hide the Shopping Cart Button at start-up
 $(function () { $("#shopping-cart-table").hide(); });
-
 
 
 // Toggle shopping cart
@@ -64,7 +71,6 @@ function checkOut() {
 
     // Write the string into hidden form
     $(document.querySelector("#ShoppingList")).val(ShoppingCartList);
-    console.log(document.querySelector("#SubmitShoppingList").getAttribute("hello"));
 
     // Create an autoclick even to POST the string to the Razor page
     var AutoClick = document.createEvent("MouseEvents");
@@ -94,12 +100,14 @@ $(".movie-shop-buy-btn").on('click', function () {
 
         // Add the table header
         var ShoppingItem =
-            "<thead class='thead-dark'><tr id='shopping-cart-table-header'>" +
+            "<thead id='shopping-cart-table-header'>" +
+            "<tr>" +
             "<th id='shopping-cart-table-header-title'>Title</th>" +
-            "<th id='shopping-cart-table-header-number'>Quantity</th>" +
+            "<th id='shopping-cart-table-header-number'>Qty</th>" +
             "<th id='shopping-cart-table-header-price'>Price</th>" +
             "<th id='shopping-cart-table-header-sum'>Sum</th>" +
-            "</tr> </thead>";
+            "</tr>" +
+            "</thead>";
 
         // Add the items in the Shopping Array to the body of the table
         for (let i = 0; i < ShoppingCartArrayLength; i++) {
@@ -117,7 +125,7 @@ $(".movie-shop-buy-btn").on('click', function () {
         }
 
         ShoppingItem = ShoppingItem + "<tr><td> Total Sum</td><td></td><td>SEK</td><td>" + totalSum + "</td></tr>";
-        ShoppingItem = ShoppingItem + "<tr><td colspan='4'> <div>" +
+        ShoppingItem = ShoppingItem + "<tr id=\"shopping-cart-buttons\"><td colspan='4'> <div>" +
             "<span class='btn btn-danger' id='empty-shopping-cart-btn' style='min-width:120px;' onclick='emptyShoppingCart()'> Empty Shopping Cart</span>" +
             "<span class='pull-right btn btn-success check-out-btn' style='width:120px;' onclick='checkOut()'>Checkout</span>" +
             "</div></td></tr>";
@@ -184,6 +192,9 @@ function AddItemToShoppingCart(item) {
         }
 }
 
+
+// -------------------------------------------- Check Out Page ---------------------------------------------------//
+
 // Handling of Quantity on Checkout page
 function ChangeQty(id) {
     let index = 0;
@@ -200,23 +211,26 @@ function ChangeQty(id) {
     var btnQtyId = BtnId.substring(0, index) + "QTY";
     console.log(btnQtyId);
     var BtnQty = document.querySelector(btnQtyId);
-    console.log(BtnQty.innerHTML);
+    console.log("Value of BtnQty before change: " + BtnQty.innerHTML);
 
     // Change the value of Quantity Button
     let Value = parseInt(BtnQty.innerText, 10);
+    let QtyVal; // To keep the current value of Quantity Button
     if (btn.innerText == "+") {
         if (Value >= 0 && Value < 3) {
             Value++;
+            QtyVal = Value;
         }
     }
     else {
         if (Value > 0) {
             Value--;
+            QtyVal = Value;
         }
     }
 
     BtnQty.innerText = Value;
-    console.log("Plus button: " + Value);
+    console.log("Value of BtnQty after change: " + BtnQty.innerText);
 
     //Get the value of Price column
     console.log("Next --> " + $(BtnQty).next());
@@ -236,5 +250,150 @@ function ChangeQty(id) {
     var totalSum = document.querySelector("#totalsum");
     Value = parseInt($(totalSum).text(), 10) + parseInt($(sum).text(), 10) - oldValue;
     $(totalSum).text(Value);
+
+    // Remove movie if count = 0
+    if (QtyVal == 0) {
+
+        setTimeout(function () {
+            var response = confirm("Do you want to remove the movie from your shopping list?");
+            if (response == true) {
+                console.log("Response " + response);
+                $(parent).parent().hide();
+            }
+
+            // Needed to update the value of total sum on the Order Registration Page
+            $("#order-registration-total-sum").html("<b>" + Value + "</b>");
+
+        }, 100);
+    }
+}
+
+//Rest Order Registration Form
+function resetOrderRegistrationForm() {
+    $("#customer-first-name").val("");
+    $("#customer-last-name").val("");
+    $("#customer-email").val("");
+    $("#customer-phone").val("");
+    $("#customer-billing-address").val("");
+    $("#customer-billing-zip").val("");
+    $("#customer-billing-city").val("");
+    $("#customer-shipping-address").val("");
+    $("#customer-shipping-zip").val("");
+    $("#customer-shipping-city").val("");
+    if ($("#shipping-address-check").is(":checked") == true) {
+        $("#shipping-address-check").prop("checked", false);
+    }
+    if ($("#create-account").is(":checked") == true) {
+        $("#create-account").prop("checked", false);
+    }
+}
+
+function GetTheLatestShoppingList() {                          
+    var data = ""; //empty var;
+
+    //Here traverse and  read input/select values present in each td of each tr, ;
+    $("#shopping-table > tbody > tr").each(function () {
+            var Title = $(this).find("#movie-title").text();
+            var Qty = $(this).find(".btn-quantity").text();
+            var Price = $(this).find("#price").text();
+        var Sum = $(this).find("#totalprice").text();
+        if (Qty != "0") {
+            if (Title != '') { data += Title + "+"; }
+            if (Qty != '') { data += Qty + "+"; }
+            if (Price != '') { data += Price + "+"; }
+            if (Sum != '') { data += Sum + "|"; }
+        }
+    });
+
+    $(document.querySelector("#FinalShoppingList")).val(data);
+    console.log("data: " + $(document.querySelector("#FinalShoppingList")).val());
+}
+
+// Hide shopping list details
+function hideOrderDetailContainter() {
+   /* console.log("Hidden: " + document.getElementById("#placeOrderContainer").getAttribute("hidden"));*/
+    $("#order-detail-containter").slideToggle("slow");
+    $("#place-order-button").prop('disabled', true);
+    $("#place-order-container").slideToggle("slow");
+
+    //Reset and clean from resude of last try to check out
+    resetOrderRegistrationForm();
+
+    //Get the latest shopping List
+    GetTheLatestShoppingList();
+}
+
+function shippingAddressCheck() {
+    if ($("#shipping-address-check").is(":checked") == true) {
+        console.log($("#customer-billing-address").val());
+        $("#customer-shipping-address").val($("#customer-billing-address").val());
+        $("#customer-shipping-zip").val($("#customer-billing-zip").val());
+        $("#customer-shipping-city").val($("#customer-billing-city").val());
+    }
+    else {
+        $("#customer-shipping-address").val("");
+        $("#customer-shipping-zip").val("");
+        $("#customer-shipping-city").val("");
+    }
+}
+
+function CreateAccount() {
+    if ($("#create-account").is(":checked") == true) {
+        $("#create-account").attr("value", "true");
+    }
+    else {
+        $("#create-account").attr("value", "false");
+    }
+}
+
+// Form validation. If the required fields are filled then enable the submit button otherwise diable it
+$("#customer-details").on("change input", function () {
+    console.log("Form Changed");
+    var requiredField = 0;
+
+    if ($("#customer-first-name").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-last-name").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-email").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-phone-name").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-billing-address").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-billing-zip").val() != '') {
+        requiredField++;
+    }
+
+    if ($("#customer-billing-city").val() != '') {
+        requiredField++;
+    }
+
+    if (requiredField == 7) {
+        $("#place-order-button").prop('disabled', false);
+    }
+    else {
+        $("#place-order-button").prop('disabled', true);
+    }
+});
+
+function sendEmail() {
+
+}
+
+function UncheckOtherPaymentOptions(id) {
+    if($(id).is(":checked") == true) {
+        $(id).parent().siblings().children().prop("checked", false);
+    }
 }
 

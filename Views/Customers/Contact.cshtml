@@ -75,7 +75,7 @@
             </div>
 
             <!-- Submit button -->
-            <button type="submit" class="btn btn-primary btn-block mb-4">Send</button>
+            <button type="submit" class="btn btn-primary btn-block mb-4" onclick="sendEmail()">Send</button>
         </form>
     </div>
 
@@ -100,5 +100,11 @@
             </div>
         </div>
     </div>
+    <script src="https://smtpjs.com/v3/smtp.js"> </script>
+    <script>
+        window.onbeforeunload = function () {
+            alert("Contact Page reloaded!")
+        }
+    </script>
 </body>
 </html>
