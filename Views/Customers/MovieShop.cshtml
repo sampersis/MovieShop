@@ -45,11 +45,9 @@
                 <!-- Shopping Cart Start -->
                 <div class="btn-group dropleft navbar-right">
                     <button class="btn btn-lg dropdown-toggle navbar-inverse movie-shop-shopping-cart-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-shopping-cart movie-shop-shopping-cart-icon"></i> <span class="badge badge-success movie-shop-shopping-cart-badge">0</span>
+                        <i class="fas fa-shopping-cart movie-shop-shopping-cart-icon"></i><span class="badge badge-success movie-shop-shopping-cart-badge">0</span>
                     </button>
-                    <table class="dropdown-menu table table-striped" data-boundary="window" id="shopping-cart-table" role="menu">
-                        <thead class="thead-dark">
-                        </thead>
+                    <table class="dropdown-menu table-striped shopping-cart-tbl" data-boundary="window" id="shopping-cart-table" role="menu">
                     </table>
                 </div>
 
@@ -196,28 +194,35 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-     </div>
+    </div>
 
     <div id="sessionid" sessionid='@Request.RequestContext.HttpContext.Session["ID"]' style="width:0; height:0;" hidden></div>
     <div style="width:0; height:0;" hidden>
         @using (Html.BeginForm("ShoppingCart", "Customers", FormMethod.Post))
         {
             @:ShoppingList <input type="text" name="ShoppingList" id="ShoppingList" />
-            <input id="SubmitShoppingList" type="submit"/>
+            <input id="SubmitShoppingList" type="submit" />
         }
     </div>
     <!------------------------- Carousel End --------------------------------------------->
 
 
-    <footer>
-        &copy; @DateTime.Today.Year Movie Shop Inc.
+
+    <footer class="text-center">
+        <div class="text-center p-3">
+            &copy; @DateTime.Today.Year Movie Shop Inc. - Kungliga slottet - 10770 Stockholm - Sweden -
+            <i class="fas fa-phone-square"></i>: 08-333444555 -
+            <i class="fas fa-at"></i>: contact@movieshop.com -
+            <i class="fas fa-globe"></i>: https://www.movieshop.com -
+            VAT-number: 123456789-25
+        </div>
     </footer>
 
     <!-- jQuery -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <!-- Bootstrap JS -->
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+    <script src='https://craig.global.ssl.fastly.net/js/mousetrap/mousetrap.min.js?a4098'></script>
     <script src="~/Scripts/movieshop.js"></script>
-
 </body>
 </html>

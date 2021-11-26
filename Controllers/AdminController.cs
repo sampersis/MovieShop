@@ -11,6 +11,8 @@ using MovieShop.Models;
 using System.Drawing;
 using System.IO;
 using System.Web.Helpers;
+using PagedList;
+using System.Net;
 
 namespace MovieShop.Controllers
 {
@@ -18,11 +20,17 @@ namespace MovieShop.Controllers
     {
         public ApplicationDbContext MovieDB;
         public List<Movies> Movies;
+        public List<Customers> Customers;
+        public List<Orders> Orders;
+        public List<OrderRows> OrderRows;
 
         public AdminController()
         {
             MovieDB = new ApplicationDbContext();
             Movies = new List<Movies>();
+            Customers = new List<Customers>();
+            Orders = new List<Orders>();
+            OrderRows = new List<OrderRows>();
         }
 
         // GET: Admin
@@ -147,16 +155,112 @@ namespace MovieShop.Controllers
             }
         }
 
-        public ActionResult CustomerAdminPage()
+        //------------------------------------------------------------------------------------------------//
+        //----------------------------- Customer Admin Page ----------------------------------------------//
+        //------------------------------------------------------------------------------------------------//
+        public ActionResult CustomerAdminPage(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View();
+            Customers = MovieDB.Customers.OrderBy(c => c.LastName).ToList();
 
+            decimal numberofRows = Customers.Count;
+            decimal pageSize = 5;
+            int numberOfPages = (int) Math.Ceiling(numberofRows / pageSize);
+
+            //int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(Customers.ToPagedList(pageNumber, (int) pageSize));
         }
 
-        //Order Admin
-        public ActionResult OrderAdminPage() 
+        // ------------------------------- Microsoft generated methods ------------------------//
+        // GET: Customers/Create
+        public ActionResult CreateCustomer()
         {
             return View();
+        }
+
+        // POST: Customers/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateCustomer([Bind(Include = "Id,FirstName,LastName,BillingAddress,BillingZip,BillingCity,DeliveryAddress,DeliveryZip,DeliveryCity,EmailAddress,PhoneNo")] Customers customers)
+        {
+            if (ModelState.IsValid)
+            {
+                MovieDB.Customers.Add(customers);
+                MovieDB.SaveChanges();
+                return RedirectToAction("CustomerAdminPage");
+            }
+
+            return View(customers);
+        }
+
+
+        // GET: Customers/Edit/5
+        public ActionResult EditCustomer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customers customers = MovieDB.Customers.Find(id);
+            if (customers == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customers);
+        }
+
+        // POST: Customers/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCustomer([Bind(Include = "Id,FirstName,LastName,BillingAddress,BillingZip,BillingCity,DeliveryAddress,DeliveryZip,DeliveryCity,EmailAddress,PhoneNo")] Customers customers)
+        {
+            if (ModelState.IsValid)
+            {
+                MovieDB.Entry(customers).State = EntityState.Modified;
+                MovieDB.SaveChanges();
+                return RedirectToAction("CustomerAdminPage");
+            }
+            return View(customers);
+        }
+
+        // GET: Customers/Delete/5
+        public ActionResult DeleteCustomer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customers customers = MovieDB.Customers.Find(id);
+            if (customers == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customers);
+        }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("DeleteCustomer")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCustomerConfirmed(int id)
+        {
+            Customers customers = MovieDB.Customers.Find(id);
+            MovieDB.Customers.Remove(customers);
+            MovieDB.SaveChanges();
+            return RedirectToAction("CustomerAdminPage");
+        }
+
+        //------------------------------------------------------------------------------------------------//
+        //----------------------------------------- Order Admin ------------------------------------------//
+        //------------------------------------------------------------------------------------------------//
+        public ActionResult OrderAdminPage() 
+        {
+            Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();
+            return View(Orders);
 
         }
     }

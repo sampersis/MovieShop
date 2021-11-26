@@ -161,19 +161,19 @@
                         <div id="payment-details-form">
                             <ul>
                                 <li id="payment-alternative">
-                                    <input class="form-check-input" type="checkbox" value="" id="credit-card">
+                                    <input class="form-check-input" type="checkbox" value="" id="credit-card" onclick="UncheckOtherPaymentOptions('#credit-card')">
                                     <label class="form-check-label" for="credit-card">Credit Card</label>
                                 </li>
                                 <li id="payment-alternative">
-                                    <input class="form-check-input" type="checkbox" value="" id="direct-bank-payment">
+                                    <input class="form-check-input" type="checkbox" value="" id="direct-bank-payment" onclick="UncheckOtherPaymentOptions('#direct-bank-payment')">
                                     <label class="form-check-label" for="direct-bank-payment">Direct Bank Payment</label>
                                 </li>
                                 <li id="payment-alternative">
-                                    <input class="form-check-input" type="checkbox" value="" id="paypal">
+                                    <input class="form-check-input" type="checkbox" value="" id="paypal" onclick="UncheckOtherPaymentOptions('#paypal')">
                                     <label class="form-check-label" for="paypal">Paypal</label>
                                 </li>
                                 <li id="payment-alternative">
-                                    <input class="form-check-input" type="checkbox" value="" id="swish">
+                                    <input class="form-check-input" type="checkbox" value="" id="swish" onclick="UncheckOtherPaymentOptions('#swish')">
                                     <label class="form-check-label" for="swish">Swish</label>
                                 </li>
                             </ul>
@@ -202,5 +202,14 @@
     <script>
         $("#place-order-container").hide();
     </script>
+    @*<script>
+        window.addEventListener('beforeunload', function (e) {
+            // Cancel the event
+            e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+            // Chrome requires returnValue to be set
+            e.returnValue = '';
+
+        })
+    </script>*@
 </body>
 </html>

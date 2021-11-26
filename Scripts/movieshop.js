@@ -14,6 +14,16 @@ class ShoppingItem
     }
 }
 
+// CTRL+PageUp directs to Admin Pages and CTRL+PageDown directs to Shop pages
+Mousetrap.bind('shift+alt+a', function (e) {
+    console.log('shift+alt+a');
+    /*    window.location.href = "/Admin/MovieAdminPage";*/
+    window.open("/Admin/AdminLoginPage");
+    return false;
+});
+
+
+
 // Hide the Shopping Cart Button at start-up
 $(function () { $("#shopping-cart-table").hide(); });
 
@@ -90,12 +100,14 @@ $(".movie-shop-buy-btn").on('click', function () {
 
         // Add the table header
         var ShoppingItem =
-            "<thead id='shopping-cart-table-header'><tr>" +
+            "<thead id='shopping-cart-table-header'>" +
+            "<tr>" +
             "<th id='shopping-cart-table-header-title'>Title</th>" +
-            "<th id='shopping-cart-table-header-number'>Quantity</th>" +
+            "<th id='shopping-cart-table-header-number'>Qty</th>" +
             "<th id='shopping-cart-table-header-price'>Price</th>" +
             "<th id='shopping-cart-table-header-sum'>Sum</th>" +
-            "</tr> </thead>";
+            "</tr>" +
+            "</thead>";
 
         // Add the items in the Shopping Array to the body of the table
         for (let i = 0; i < ShoppingCartArrayLength; i++) {
@@ -113,7 +125,7 @@ $(".movie-shop-buy-btn").on('click', function () {
         }
 
         ShoppingItem = ShoppingItem + "<tr><td> Total Sum</td><td></td><td>SEK</td><td>" + totalSum + "</td></tr>";
-        ShoppingItem = ShoppingItem + "<tr><td colspan='4'> <div>" +
+        ShoppingItem = ShoppingItem + "<tr id=\"shopping-cart-buttons\"><td colspan='4'> <div>" +
             "<span class='btn btn-danger' id='empty-shopping-cart-btn' style='min-width:120px;' onclick='emptyShoppingCart()'> Empty Shopping Cart</span>" +
             "<span class='pull-right btn btn-success check-out-btn' style='width:120px;' onclick='checkOut()'>Checkout</span>" +
             "</div></td></tr>";
@@ -242,14 +254,17 @@ function ChangeQty(id) {
     // Remove movie if count = 0
     if (QtyVal == 0) {
 
-        var response = confirm("Do you want to remove the movie from your shopping list?");
-        if (response == true) {
-            console.log("Response " + response);
-            $(parent).parent().hide();
-        }
+        setTimeout(function () {
+            var response = confirm("Do you want to remove the movie from your shopping list?");
+            if (response == true) {
+                console.log("Response " + response);
+                $(parent).parent().hide();
+            }
 
-        // Needed to update the value of total sum on the Order Registration Page
-        $("#order-registration-total-sum").html("<b>" + Value + "</b>");
+            // Needed to update the value of total sum on the Order Registration Page
+            $("#order-registration-total-sum").html("<b>" + Value + "</b>");
+
+        }, 100);
     }
 }
 
@@ -371,4 +386,14 @@ $("#customer-details").on("change input", function () {
         $("#place-order-button").prop('disabled', true);
     }
 });
+
+function sendEmail() {
+
+}
+
+function UncheckOtherPaymentOptions(id) {
+    if($(id).is(":checked") == true) {
+        $(id).parent().siblings().children().prop("checked", false);
+    }
+}
 
