@@ -248,10 +248,62 @@ namespace MovieShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCustomerConfirmed(int id)
         {
-            Customers customers = MovieDB.Customers.Find(id);
-            MovieDB.Customers.Remove(customers);
-            MovieDB.SaveChanges();
-            return RedirectToAction("CustomerAdminPage");
+            string forceDelete = Request.Form["force-delete-customer"];
+            Customers Customer = MovieDB.Customers.Find(id);
+
+            if (Customer != null)
+            {
+                // Find all the orders by the customer
+                var orders = MovieDB.Orders.Where(o => o.CustomerId == Customer.Id).ToList();
+
+                if (orders.Count != 0)
+                {
+
+                    // Remove all entries in OrderRow Table
+                    foreach (var order in orders)
+                    {
+                        var orderRows = MovieDB.OrderRows.Where(or => or.OrderId == order.Id).ToList();
+
+                        if (orderRows.Count != 0)
+                        {
+                            foreach (var orderRow in orderRows)
+                            {
+                                MovieDB.OrderRows.Remove(orderRow);
+                            }
+                        }
+                        else
+                        {
+                            if (forceDelete != "Checked")
+                            {
+                                throw new Exception("Customers order cannot be deleted! Deletion aborted");
+                            }
+                        }
+                    }
+
+                    MovieDB.SaveChanges();
+                }
+                else
+                {
+                    if (forceDelete != "Checked")
+                    {
+                        throw new Exception("Customers order cannot be deleted! Deletion aborted");
+                    }
+                }
+                // Remove all entries in Order Table
+                foreach (var order in orders)
+                {
+                    MovieDB.Orders.Remove(order);
+                }
+
+                // Remove the customer
+                MovieDB.Customers.Remove(Customer);
+                MovieDB.SaveChanges();
+                return RedirectToAction("CustomerAdminPage");
+            }
+            else
+            {
+                throw new Exception("Cannot remove the customer!");
+            }
         }
 
         //------------------------------------------------------------------------------------------------//

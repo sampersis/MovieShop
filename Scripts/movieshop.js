@@ -15,12 +15,12 @@ class ShoppingItem
 }
 
 // CTRL+PageUp directs to Admin Pages and CTRL+PageDown directs to Shop pages
-Mousetrap.bind('shift+alt+a', function (e) {
-    console.log('shift+alt+a');
-    /*    window.location.href = "/Admin/MovieAdminPage";*/
-    window.open("/Admin/AdminLoginPage");
-    return false;
-});
+//Mousetrap.bind('shift+alt+a', function (e) {
+//    console.log('shift+alt+a');
+//    /*    window.location.href = "/Admin/MovieAdminPage";*/
+//    window.open("/Admin/AdminLoginPage");
+//    return false;
+//});
 
 
 
@@ -379,6 +379,8 @@ $("#customer-details").on("change input", function () {
         requiredField++;
     }
 
+    console.log("Rquired Field: " + requiredField);
+
     if (requiredField == 7) {
         $("#place-order-button").prop('disabled', false);
     }
@@ -386,10 +388,6 @@ $("#customer-details").on("change input", function () {
         $("#place-order-button").prop('disabled', true);
     }
 });
-
-function sendEmail() {
-
-}
 
 function UncheckOtherPaymentOptions(id) {
     if($(id).is(":checked") == true) {

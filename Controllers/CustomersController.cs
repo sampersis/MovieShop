@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text;
 using MovieShop.Models;
+using System.Net.Mail;
 
 namespace MovieShop.Controllers
 {
@@ -67,6 +68,58 @@ namespace MovieShop.Controllers
         {
             return View();
         }
+
+        [HttpPost, ActionName("Contact")]
+        public ActionResult SendEmail()
+        {
+            string sender = @"movie.shop.inc@gmail.com";
+            string password = @"C95*c%6?!q";
+            string contactee = Request.Form["contact-name"];
+            string recepient = @"movie.shop.inc@gmail.com";
+            string contacteeEmail = Request.Form["contact-email"];
+            string msg = Request.Form["contact-message"];
+            string sendCopy = Request.Form["send-a-copy-of-email-to-me-too"];
+            string subject = "Message from " + contactee + " (" + DateTime.Now.ToString("yyyy'-'MM'-'dd") + ")" ;
+            string message = "Message from " + contactee + " " + contacteeEmail + " .\n\n\n" + " " + msg;
+
+            try
+            {
+                MailMessage Message = new MailMessage()
+                {
+                    From = new MailAddress(sender),
+                    Subject = subject,
+                    IsBodyHtml = false,
+                    Body = message
+                };
+
+                Message.To.Add(new MailAddress(recepient));
+
+                if (sendCopy == "Checked")
+                {
+                    Message.To.Add(new MailAddress(contacteeEmail));
+                }
+
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(sender, password),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = true,
+                };
+
+                smtpClient.Send(Message);
+            }
+            catch (Exception e)
+            {
+                e.Data["DateTimeInfo"] = DateTime.Now.ToString("yyyy'-'MM'-'dd");
+                Console.WriteLine(e.Data["DateTimeInfo"] + ": " + e.Message);
+                Environment.Exit(-1);
+            }
+
+            return View("Contact");
+        }
+
 
         internal string [][] ShoppingList(string shoppinglist)
         {
@@ -159,13 +212,13 @@ namespace MovieShop.Controllers
                     }
                     else
                     {
-                        // Throw an Error
+                        throw new Exception("Unable to find the movie!");
                     }
                 }
             }
             else
             {
-                // Throw an error
+                throw new Exception("Unable to find the customer!");
             }
 
 
