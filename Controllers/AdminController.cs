@@ -24,6 +24,7 @@ namespace MovieShop.Controllers
         public List<Orders> Orders;
         public List<OrderRows> OrderRows;
         OrderDetails orderDetail;
+        int ID = 0;
 
         public AdminController()
         {
@@ -314,27 +315,33 @@ namespace MovieShop.Controllers
         public ActionResult OrderAdminPage()
         {
             Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();
-            return View(Orders);
+            //int id = ((int)TempData["OrderId"] != 0) ? (int)TempData["OrderId"] : 0 ;
+            if (ID != 0) { ViewBag.OrderID = ID; }
+            else { ViewBag.OrderID = 0; }
 
+            return View(Orders);
         }
 
-        [HttpPost]
-        public ActionResult OrderAdminPage(int id)
+        [HttpPost, ActionName("OrderAdminPage")]
+        public ActionResult GetOrderDetails()
         {
+            int id = Convert.ToInt32(Request.Form["index"]);
             Orders order = MovieDB.Orders.Find(id);
             var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
-            var orderRows = MovieDB.OrderRows.Where(or => or.OrderId == order.Id).ToList();
+            var orderRows = MovieDB.OrderRows.Where(o => o.OrderId == id).ToList();
             orderDetail.order = order;
             orderDetail.customer = customer[0];
 
-            foreach (var orderRow in orderRows)
+            foreach (OrderRows orderRow in orderRows)
             {
                 orderDetail.orderRows.Add(orderRow);
                 var movie = MovieDB.Movies.Where(m => m.Id == orderRow.MovieId).ToList();
                 orderDetail.movie.Add(movie[0]);
             }
 
-            return View(orderDetail);
+            //TempData["OrderId"] = orderDetail.order.Id.ToString();
+            ID = orderDetail.order.Id;
+            return RedirectToAction("OrderAdminPage");
         }
 
         // GET: Orders/Details/5
@@ -381,7 +388,7 @@ namespace MovieShop.Controllers
                 orderDetail.movie.Add(movie[0]);
             }
 
-            return View(orderDetail);
+            return View();
         }
 
         // POST: Orders/Edit/5
