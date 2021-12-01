@@ -230,33 +230,23 @@ namespace MovieShop.Controllers
             }
 
             // Check whether user is already in Customers Table
-            var IsAlreadyCustomer = MovieDB.Customers.Where(c => c.FirstName == customer.FirstName &&
-            c.LastName == customer.LastName && c.EmailAddress == customer.EmailAddress &&
-            c.PhoneNo == customer.PhoneNo && c.BillingAddress == customer.BillingAddress &&
-            c.BillingZip == customer.BillingZip);
+            Customers Customer = MovieDB.Customers.FirstOrDefault(c => c.EmailAddress == customer.EmailAddress);
 
-            if (!IsAlreadyCustomer.Any())
+            if (Customer == null)
             {
                 MovieDB.Customers.Add(customer);
                 MovieDB.SaveChanges();
+                Customer = MovieDB.Customers.FirstOrDefault(c => c.EmailAddress == customer.EmailAddress);
             }
 
-            // Create Order in the database
-            Customers Customer = MovieDB.Customers.FirstOrDefault(c => c.FirstName == customer.FirstName &&
-            c.LastName == customer.LastName && c.EmailAddress == customer.EmailAddress &&
-            c.PhoneNo == customer.PhoneNo && c.BillingAddress == customer.BillingAddress &&
-            c.BillingZip == customer.BillingZip);
 
-
-            if (Customer != null)
-            {
                 order.CustomerId = Customer.Id;
-                order.OrderDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                order.OrderDate = DateTime.Now;
                 MovieDB.Orders.Add(order);
                 MovieDB.SaveChanges();
 
                 // Populate the OrderRow Table
-                order = MovieDB.Orders.FirstOrDefault(o => o.CustomerId == Customer.Id);
+                //order = MovieDB.Orders.FirstOrDefault(o => o.CustomerId == Customer.Id);
 
                 for (int i=0; i < shoppingList.Length; i++)
                 {
@@ -278,11 +268,6 @@ namespace MovieShop.Controllers
                         throw new Exception("Unable to find the movie!");
                     }
                 }
-            }
-            else
-            {
-                throw new Exception("Unable to find the customer!");
-            }
 
 
             // Load a page with the Order Details

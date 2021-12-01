@@ -102,4 +102,8 @@ footer {
     padding-top: 5px;
 }
 
-
+#order-detail-form input:not([type=submit],[type=button]){
+    background-color: transparent;
+    cursor: not-allowed;
+    user-select: none;
+}

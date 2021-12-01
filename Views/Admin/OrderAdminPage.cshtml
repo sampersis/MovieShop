@@ -34,81 +34,81 @@
 </form>
 <hr />
 
-<div class="container">
-    <form>
+<div class="container" id="order-detail-container">
+    <form method="post" id="order-detail-form">
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Order Id</label>
-                <input type="text" id="order-id" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="order-id"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>customer Id</label>
-                <input type="text" id="customer-id" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="customer-id"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Order Date</label>
-                <input type="text" id="order-date" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="order-date"/>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Forename</label>
-                <input type="text" id="forname" style="cursor: cell;" />
+                <input class="can-be-modified-input" type="text" id="forename" onkeypress="EnableSaveButton()"/>
             </div>
 
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Surname</label>
-                <input type="text" id="surname" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="surname" onkeypress="EnableSaveButton()"/>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Phone No.</label>
-                <input type="text" id="phone-number" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="phone-number" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"> </div>
             <div class="col-md-3">
                 <label>Email</label>
-                <input type="text" id="email" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="email" onkeypress="EnableSaveButton()"/>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Billing Address</label>
-                <input type="text" id="billing-address" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="billing-address" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Billing zip</label>
-                <input type="text" id="billing-zip" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="billing-zip" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Billing city</label>
-                <input type="text" id="billing-city" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="billing-city" onkeypress="EnableSaveButton()"/>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Shipping Address</label>
-                <input type="text" id="shipping-address" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="shipping-address" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Shipping zip</label>
-                <input type="text" id="shipping-zip" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="shipping-zip" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Shipping city</label>
-                <input type="text" id="shipping-city" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="shipping-city" onkeypress="EnableSaveButton()"/>
             </div>
         </div>
 
@@ -132,52 +132,52 @@
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-2">
-                <input type="text" id="title" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="title"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-2">
-                <input type="text" id="qty" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="qty" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-2">
-                <input type="text" id="price" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="price"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-2">
-                <input type="text" id="sum" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="sum" onchange="EnableSaveButton()"/>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-2">
-                <input type="text" id="title" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="title"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-2">
-                <input type="text" id="qty" style="cursor: cell;"/>
+                <input class="can-be-modified-input" type="text" id="qty" onkeypress="EnableSaveButton()"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-2">
-                <input type="text" id="price" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="price"/>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-2">
-                <input type="text" id="sum" style="background-color:transparent; cursor:not-allowed;" readonly />
+                <input type="text" id="sum"/>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-9"></div>
             <div class="col-md-3">
-                <input type="text" id="total-sum" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="total-sum"/>
                 <label>Total Sum (SEK)</label>
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:30px;">
-            <div class="col-md-9"></div>
+            <div class="col-md-9" style="color:red; font-weight:bold;">Deletion and Modification of order data is irrevocable once committed.</div>
             <div class="col-md-3">
-                <input type="text" id="vat" style="background-color: transparent; cursor: not-allowed;" readonly />
+                <input type="text" id="vat"/>
                 <label>VAT (SEK)</label>
             </div>
         </div>
@@ -187,8 +187,8 @@
             <input type="radio" id="radio-delete" style="cursor: pointer;" onchange="modificationMode('#radio-delete')" />
             <label>Edit</label>
             <input type="radio" id="radio-edit" style="cursor: pointer;" onchange="modificationMode('#radio-edit')" />
-            <input class="btn btn-warning" type="submit" value="Save Changes" disabled />
-            <input class="btn btn-success" type="submit" value="Cancel" />
+            <input class="btn btn-danger" type="submit" id="save-changes-btn" value="Save Changes" disabled />
+            <input class="btn btn-success" type="button" value="Cancel" onclick="cancelModification()" />
         </div>
     </form>
 </div>
@@ -207,5 +207,31 @@
         if ($(id).is(":checked") == true) {
             $(id).siblings().prop("checked", false);
         }
+
+        if (id == "#radio-delete") {
+            $("#order-detail-container").css("border", "solid 3px red");
+            $("#save-changes-btn").prop('disabled', false);
+            $(".can-be-modified-input").css({ "user-select": "none", "cursor": "not-allowed", "background-color": "transparent" });
+            $("#order-detail-form").get(0).reset();
+            $(id).prop("checked", true); // because form reset unchecks the delete radio
+        }
+        else {
+            $("#order-detail-container").css("border", "");
+            $("#save-changes-btn").prop('disabled', true);
+            $(".can-be-modified-input").css({ "user-select": "text", "cursor": "pointer", "background-color": "white" });
+
+        }
+
     }
+
+    function EnableSaveButton() {
+        console.log("enabling the Save Changes button");
+        $("#save-changes-btn").prop('disabled', false);
+    }
+
+    function cancelModification()
+    {
+        $("#order-detail-container").slideUp();
+    }
+
 </script>

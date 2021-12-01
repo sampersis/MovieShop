@@ -24,7 +24,6 @@ namespace MovieShop.Controllers
         public List<Orders> Orders;
         public List<OrderRows> OrderRows;
         OrderDetails orderDetail;
-        int ID = 0;
 
         public AdminController()
         {
@@ -315,11 +314,11 @@ namespace MovieShop.Controllers
         public ActionResult OrderAdminPage()
         {
             Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();
-            //int id = ((int)TempData["OrderId"] != 0) ? (int)TempData["OrderId"] : 0 ;
-            if (ID != 0) { ViewBag.OrderID = ID; }
-            else { ViewBag.OrderID = 0; }
 
-            return View(Orders);
+            ViewBag.OrderData = Session["OrderDetails"];
+
+
+                return View(Orders);
         }
 
         [HttpPost, ActionName("OrderAdminPage")]
@@ -339,8 +338,7 @@ namespace MovieShop.Controllers
                 orderDetail.movie.Add(movie[0]);
             }
 
-            //TempData["OrderId"] = orderDetail.order.Id.ToString();
-            ID = orderDetail.order.Id;
+            Session["OrderDetails"] = orderDetail;
             return RedirectToAction("OrderAdminPage");
         }
 
