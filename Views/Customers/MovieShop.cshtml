@@ -212,12 +212,11 @@
         <div class="slide-div fade" id="">
             <div class="number-text">1/5</div>
             <div class="statistics-slide">
-                <ol>
-                    <li>Movie #1</li>
-                    <li>Movie #2</li>
-                    <li>Movie #3</li>
-                    <li>Movie #4</li>
-                    <li>Movie #5</li>
+                <ol style="list-style-type: disc;">
+                    @for(int i = 0; i < ViewBag.TheTopFiveMostPopularMovies.Length; i++)
+                    {
+                    <li>@ViewBag.TheTopFiveMostPopularMovies[i][0]  (sold pcs.:  @ViewBag.TheTopFiveMostPopularMovies[i][1])</li>
+                    }
                 </ol>
             </div>
             <div class="caption-text">Top 5 Most Popular Movies</div>
@@ -226,12 +225,11 @@
         <div class="slide-div fade">
             <div class="number-text">2/5</div>
             <div class="statistics-slide">
-                <ol>
-                    <li>New Movie #1</li>
-                    <li>New Movie #2</li>
-                    <li>New Movie #3</li>
-                    <li>New Movie #4</li>
-                    <li>New Movie #5</li>
+                <ol style="list-style-type: disc;">
+                    @foreach (var movie in ViewBag.TheTopFiveNewestMovies)
+                    {
+                    <li>@movie.Title (Year of Release: @movie.RealYear)</li>
+                    }
                 </ol>
             </div>
             <div class="caption-text">Top 5 Newest Movies</div>
@@ -240,12 +238,12 @@
         <div class="slide-div fade">
             <div class="number-text">3/5</div>
             <div class="statistics-slide">
-                <ol>
-                    <li>Old Movie #1</li>
-                    <li>Old Movie #2</li>
-                    <li>Old Movie #3</li>
-                    <li>Old Movie #4</li>
-                    <li>Old Movie #5</li>
+                <ol style="list-style-type: disc;">
+                    @foreach (var movie in ViewBag.TheFiveOldestMovies)
+                    {
+                        <li>@movie.Title (Year of Release: @movie.RealYear)</li>
+                    }
+
                 </ol>
             </div>
             <div class="caption-text">Top 5 Oldest Movies</div>
@@ -254,12 +252,12 @@
         <div class="slide-div fade">
             <div class="number-text">4/5</div>
             <div class="statistics-slide">
-                <ol>
-                    <li>Cheapest Movie #1</li>
-                    <li>Cheapest Movie #2</li>
-                    <li>Cheapest Movie #3</li>
-                    <li>Cheapest Movie #4</li>
-                    <li>Cheapest Movie #5</li>
+                <ol style="list-style-type: disc;">
+                    @foreach (var movie in ViewBag.TheFiveCheapestMovies)
+                    {
+                        <li>@movie.Title (Price (SEK/pcs) @movie.Price)</li>
+                    }
+
                 </ol>
             </div>
             <div class="caption-text">Top 5 Cheapest Movies</div>
@@ -268,8 +266,8 @@
         <div class="slide-div fade">
             <div class="number-text">5/5</div>
             <div class="statistics-slide">
-                <ol>
-                    <li>Customer #1</li>
+                <ol style="list-style-type: none;">
+                    <li><i class="fas fa-star" style="color:gold;"></i> @ViewBag.TheCustomerWhoHaveMadeTheMostExpensiveOrder</li>
                 </ol>
             </div>
             <div class="caption-text">Top Customer</div>

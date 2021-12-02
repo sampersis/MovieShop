@@ -29,6 +29,107 @@ namespace MovieShop.Controllers
             OrderRows = new List<OrderRows>();
         }
 
+        // The most popular movies based on the number of orders made
+        private string[][] TheTopFiveMostPopularMovies()
+        {
+            int numOfMoviePurchased = 0; int i = 0;
+            Dictionary<int,int> PurchasePerMovie = new Dictionary<int,int>();
+            Dictionary<int, int> TopFiveMovies = new Dictionary<int, int>();
+            string [][] topMovies = new string [5][];
+            Movies movie = new Movies();
+
+            // Find the orders and create a sorted Dictionaries with MovieIds and number of purchases
+            List<IGrouping<int,OrderRows>> orderRowsGroups = MovieDB.OrderRows.OrderBy(or => or.MovieId).GroupBy(or => or.MovieId).ToList();
+
+            foreach (var OrderRowGroup in orderRowsGroups)
+            {
+                numOfMoviePurchased = 0;
+
+                foreach (var order in OrderRowGroup)
+                {
+                    movie = (Movies) MovieDB.Movies.Find(order.MovieId);
+                    numOfMoviePurchased += Convert.ToInt32(order.Price / (double) movie.Price);
+                    PurchasePerMovie[movie.Id] = numOfMoviePurchased;
+                }
+            }
+
+            var Top5Movies = PurchasePerMovie.OrderByDescending(kvp => kvp.Value).Take(5);
+            TopFiveMovies = Top5Movies.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            // Then find the movies on the top
+            foreach (KeyValuePair<int,int> TopMovie in TopFiveMovies)
+            {
+                movie = (Movies)MovieDB.Movies.Find(TopMovie.Key);
+                topMovies[i]= new string [] { movie.Title, TopMovie.Value.ToString() };
+                i++;
+            }
+
+            //return the list of the most popular movies
+            return topMovies;
+        }
+
+        // The 5 newest movies (based on release year)
+        private List<Movies> TheTopFiveNewestMovies()
+        {
+            //Sort all movies according to release year
+            List <Movies> TheTopFiveNewestMovies = MovieDB.Movies.OrderByDescending(x => x.RealYear).Take(5).ToList();
+
+            // Return the list
+            return TheTopFiveNewestMovies;
+        }
+
+        // The 5 oldest movies (based to release year)
+        private List<Movies> TheFiveOldestMovies()
+        {
+            //Sort all movies according to release year
+            List<Movies> TheFiveOldestMovies = MovieDB.Movies.OrderBy(m => m.RealYear).Take(5).ToList();
+
+            // Return the list
+            return TheFiveOldestMovies;
+        }
+
+        // The 5 cheapest movies (based to price)
+        private List<Movies> TheFiveCheapestMovies()
+        {
+            //Sort all movies according to price
+            List<Movies> TheFiveCheapestMovies = MovieDB.Movies.OrderBy(m => m.Price).Take(5).ToList();
+
+            // Return the list
+            return TheFiveCheapestMovies;
+        }
+
+        // The customer who have made the most expensive order (based of the sum of the order rows in an order)
+        private string TheCustomerWhoHaveMadeTheMostExpensiveOrder()
+        {
+            Customers TheTopCustomer = new Customers();
+            Dictionary<int, double> TheWinner = new Dictionary<int, double>();
+            Dictionary<int, double> CustomerPurchaseSummary = new Dictionary<int, double>();
+            var CustomerOrders = MovieDB.Orders.OrderByDescending(o => o.Id).GroupBy(o => o.CustomerId);
+            var orderRows = MovieDB.OrderRows.GroupBy(or => or.OrderId).Select(g => new {oid = g.Key , sum = g.Sum(or=>or.Price)}).ToList();
+
+            foreach (var customerOrder in CustomerOrders)
+            {
+                double sum = 0;
+                foreach(var order in customerOrder)
+                {
+                    foreach (var orderRow in orderRows)
+                    {
+                        if (orderRow.oid == order.Id)
+                        {
+                            sum += orderRow.sum;
+                            CustomerPurchaseSummary[order.CustomerId] = sum;
+                        }
+                    }
+                }
+            }
+
+            TheWinner = CustomerPurchaseSummary.OrderByDescending(kvp => kvp.Value).Take(1).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            TheTopCustomer = (Customers)MovieDB.Customers.Find(TheWinner.Keys.First());
+
+            return TheTopCustomer.FirstName + " " + TheTopCustomer.LastName + " with a SEK " + TheWinner.Values.First().ToString() + " Purchase";
+
+        }
+
         //Load the Movie Shop
         public ActionResult MovieShop()
         {
@@ -42,6 +143,12 @@ namespace MovieShop.Controllers
             }
             else
             {
+                ViewBag.TheTopFiveMostPopularMovies = TheTopFiveMostPopularMovies();
+                ViewBag.TheTopFiveNewestMovies = TheTopFiveNewestMovies();
+                ViewBag.TheFiveOldestMovies = TheFiveOldestMovies();
+                ViewBag.TheFiveCheapestMovies = TheFiveCheapestMovies();
+                ViewBag.TheCustomerWhoHaveMadeTheMostExpensiveOrder = TheCustomerWhoHaveMadeTheMostExpensiveOrder();
+
                 return View(Movies);
             }
         }
