@@ -10,13 +10,23 @@ namespace MovieShop.Models
         public OrderDetails() {
             order = new Orders();
             customer = new Customers();
-            orderRows = new List<OrderRows>();
-            movie = new List<Movies>();
+            shoppingCart = new List<ShoppingCart>();
         }
 
+        public class ShoppingCart
+        {
+            public string movieTitle { get; set; }
+            public int qty { get; set; }
+            public double price { get; set; }
+            public double sum { get; set; }
+        }
+
+        public List<ShoppingCart> shoppingCart;
+
+        public double totalSum { get; set; } = 0;
+        public double vat { get; set; } = 0;
+
         public Orders order { get; set; }
-        public List<OrderRows> orderRows { get; set; }
-       public Customers customer { get; set; }
-        public List<Movies> movie { get; set; }
+        public Customers customer { get; set; }
     }
 }

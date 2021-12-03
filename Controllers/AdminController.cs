@@ -315,7 +315,10 @@ namespace MovieShop.Controllers
         {
             Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();
 
-            ViewBag.OrderData = Session["OrderDetails"];
+            if (Session["OrderDetails"] != null)
+            {
+                ViewBag.OrderData = Session["OrderDetails"];
+            }
 
 
                 return View(Orders);
@@ -330,13 +333,25 @@ namespace MovieShop.Controllers
             var orderRows = MovieDB.OrderRows.Where(o => o.OrderId == id).ToList();
             orderDetail.order = order;
             orderDetail.customer = customer[0];
-
             foreach (OrderRows orderRow in orderRows)
             {
-                orderDetail.orderRows.Add(orderRow);
-                var movie = MovieDB.Movies.Where(m => m.Id == orderRow.MovieId).ToList();
-                orderDetail.movie.Add(movie[0]);
+                var movie = (Movies) MovieDB.Movies.Find(orderRow.MovieId);
+                orderDetail.shoppingCart.Add(new OrderDetails.ShoppingCart()
+                {
+                    qty = (int)(orderRow.Price / (double)movie.Price),
+                    movieTitle = movie.Title,
+                    price = (double)movie.Price,
+                    sum = orderRow.Price
+                });
             }
+
+            foreach (var sc in orderDetail.shoppingCart)
+            {
+                orderDetail.totalSum += sc.sum;
+            }
+
+            orderDetail.vat = orderDetail.totalSum * 0.8;
+
 
             Session["OrderDetails"] = orderDetail;
             return RedirectToAction("OrderAdminPage");
@@ -381,9 +396,6 @@ namespace MovieShop.Controllers
 
             foreach (var orderRow in orderRows)
             {
-                orderDetail.orderRows.Add(orderRow);
-                var movie = MovieDB.Movies.Where(m => m.Id == orderRow.MovieId).ToList();
-                orderDetail.movie.Add(movie[0]);
             }
 
             return View();

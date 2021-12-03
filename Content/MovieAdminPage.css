@@ -104,6 +104,6 @@ footer {
 
 #order-detail-form input:not([type=submit],[type=button]){
     background-color: transparent;
-    cursor: not-allowed;
+    cursor: none;
     user-select: none;
 }
