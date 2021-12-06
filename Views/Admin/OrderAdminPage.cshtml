@@ -37,7 +37,7 @@
 @if (Order != null)
 {
 <div class="container" id="order-detail-container">
-    <form method="post" id="order-detail-form" oninput="handleEcent()">
+    <form method="post" id="order-detail-form">
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Order Id</label>
@@ -175,22 +175,19 @@
             <label>Edit</label>
             <input type="radio" id="radio-edit" style="cursor: pointer;" onchange="modificationMode('#radio-edit')" />
             <input class="btn btn-danger" type="button" id="save-changes-btn" value="Save Changes" disabled />
-            <input class="btn btn-success" type="button" value="Cancel" onclick="cancelModification()" />
+            <input class="btn btn-success" type="button" value="Cancel" id="cancel" onclick="cancelModification()" />
         </div>
     </form>
 </div>
+
+
 }
 <script>
 
-    function handleEcent() {
-        console.log("Form Event");
-        $("#order-detail-form").get(0).reset();
-    }
-
-    //document.getElementById("order-detail-form").addEventListener("click", function () {
-    //    console.log("Form Event: " + event);
-    //    event.preventDefault();
-    //});
+    //function handleEcent() {
+    //    console.log("Form Event");
+    //    $("#order-detail-form").get(0).reset();
+    //}
 
     function PostOrderID(index) {
         //Get the value of option selected in the dropdown list
@@ -200,11 +197,6 @@
         if ($("#index").val(id) != "0") {
             document.getElementById("index-form").submit();
         }
-    }
-
-    function handler(event) {
-        e.stopPropagation();
-        e.preventDefault();
     }
 
     function modificationMode(id) {
@@ -227,7 +219,7 @@
             $(".can-be-modified-input").css({ "user-select": "text", "cursor": "pointer", "background-color": "white" });
             $(".can-be-modified-input").prop("disabled", false);
             $("#save-changes-btn").val("Save Changes");
-
+            $(id).prop("checked", true);
         }
     }
 
@@ -237,8 +229,18 @@
     }
 
     function cancelModification() {
-/*        $("#order-detail-container").slideUp();*/
-        $("#order-detail-container").animate({ height: 'toggle', opacity: 'toggle' }, 'slow');
+        console.log("Cancel button pressed!");
+        setTimeout(function () {
+
+                $.ajax({
+                    url: "/Admin/OrderAdminPage",
+                    contentType: 'application/html;charset=utf-8',
+                    type: 'POST',
+                    dataType: 'html'
+                })
+        }, 500);
+
+        $("#order-detail-container").slideUp();
     }
 
 </script>

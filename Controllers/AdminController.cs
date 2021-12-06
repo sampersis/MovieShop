@@ -44,7 +44,9 @@ namespace MovieShop.Controllers
             return View();
         }
 
-        //Movie Admin
+        //------------------------------------------------------------------------------------------------//
+        //----------------------------- Movie Admin Page ----------------------------------------------//
+        //------------------------------------------------------------------------------------------------//
         public ActionResult MovieAdminPage()
         {
             Movies = MovieDB.Movies.OrderBy(m => m.Id).ToList();
@@ -319,8 +321,6 @@ namespace MovieShop.Controllers
             {
                 ViewBag.OrderData = Session["OrderDetails"];
             }
-
-
                 return View(Orders);
         }
 
@@ -328,32 +328,42 @@ namespace MovieShop.Controllers
         public ActionResult GetOrderDetails()
         {
             int id = Convert.ToInt32(Request.Form["index"]);
-            Orders order = MovieDB.Orders.Find(id);
-            var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
-            var orderRows = MovieDB.OrderRows.Where(o => o.OrderId == id).ToList();
-            orderDetail.order = order;
-            orderDetail.customer = customer[0];
-            foreach (OrderRows orderRow in orderRows)
+            if (id != 0)
             {
-                var movie = (Movies) MovieDB.Movies.Find(orderRow.MovieId);
-                orderDetail.shoppingCart.Add(new OrderDetails.ShoppingCart()
+                Orders order = MovieDB.Orders.Find(id);
+                var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
+                var orderRows = MovieDB.OrderRows.Where(o => o.OrderId == id).ToList();
+                orderDetail.order = order;
+                orderDetail.customer = customer[0];
+                foreach (OrderRows orderRow in orderRows)
                 {
-                    qty = (int)(orderRow.Price / (double)movie.Price),
-                    movieTitle = movie.Title,
-                    price = (double)movie.Price,
-                    sum = orderRow.Price
-                });
-            }
+                    var movie = (Movies)MovieDB.Movies.Find(orderRow.MovieId);
+                    orderDetail.shoppingCart.Add(new OrderDetails.ShoppingCart()
+                    {
+                        qty = (int)(orderRow.Price / (double)movie.Price),
+                        movieTitle = movie.Title,
+                        price = (double)movie.Price,
+                        sum = orderRow.Price
+                    });
+                }
 
-            foreach (var sc in orderDetail.shoppingCart)
+                foreach (var sc in orderDetail.shoppingCart)
+                {
+                    orderDetail.totalSum += sc.sum;
+                }
+
+                orderDetail.vat = orderDetail.totalSum * 0.8;
+
+
+                Session["OrderDetails"] = orderDetail;
+
+            }
+            else
             {
-                orderDetail.totalSum += sc.sum;
+                Session["OrderDetails"] = null;
             }
 
-            orderDetail.vat = orderDetail.totalSum * 0.8;
 
-
-            Session["OrderDetails"] = orderDetail;
             return RedirectToAction("OrderAdminPage");
         }
 

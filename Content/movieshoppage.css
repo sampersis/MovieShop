@@ -13,6 +13,10 @@
     padding-bottom: 5px;
 }
 
+#company-logo-btn {
+    border:none;
+    margin-top: -15px;
+}
 .company-logo {
     width: 50px;
     height: 50px;
@@ -366,22 +370,32 @@ width: 100%;
     white-space: nowrap;
 }
 
+#footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin : 2% auto 0 auto;
+}
+
 footer {
-    position: absolute;
-    bottom: 0;
+    font-size:1.25rem;
     background-color: #F8F8F8;
     height: 30px;
-    margin-left: 25%;
     border: solid 1px #e7e7e7;
     border-radius: 5px;
     padding-top: 5px;
 }
-footer > div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content:space-between;
+
+@media only screen and (min-width: 29.8125rem /*477px*/ ) {
+    #footer-container {
+        justify-content: space-around;
+    }
 }
 
+@media only screen and (min-width: 77.5rem /*1240px*/ ) {
+    #footer-container {
+        justify-content: space-evenly;
+    }
+}
 /*--------- Slide Show-------------*/
 .slideshow-container {
     max-width: 500px;

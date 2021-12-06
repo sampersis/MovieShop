@@ -102,7 +102,7 @@ footer {
     padding-top: 5px;
 }
 
-#order-detail-form input:not([type=submit],[type=button]){
+#order-detail-form input:not([type=reset],[type=button]) {
     background-color: transparent;
     cursor: none;
     user-select: none;
