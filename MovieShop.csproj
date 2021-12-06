@@ -191,6 +191,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Movies.cs" />
+    <Compile Include="Models\OrderDetails.cs" />
     <Compile Include="Models\OrderRows.cs" />
     <Compile Include="Models\Orders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -235,7 +236,16 @@
     <Content Include="Views\Admin\CreateCustomer.cshtml" />
     <Content Include="Views\Admin\EditCustomer.cshtml" />
     <Content Include="Views\Admin\DeleteCustomer.cshtml" />
+    <Content Include="Views\Admin\OrderEdit.cshtml" />
     <None Include="Views\Customers\Contact.cshtml" />
+    <Content Include="Views\Customers\Slides\images\AAHtU5Z.jpg" />
+    <Content Include="Views\Customers\Slides\images\AAHtU6t.jpg" />
+    <Content Include="Views\Customers\Slides\images\AAHu3Hd.jpg" />
+    <Content Include="Views\Customers\Slides\images\AAHu8zK.jpg" />
+    <Content Include="Views\Customers\Slides\images\AAHuaVF.jpg" />
+    <Content Include="Views\Customers\Slides\images\AAHujfr.jpg" />
+    <Content Include="Views\Customers\Slides\images\AAHukvt.jpg" />
+    <Content Include="Views\Customers\Slides\slides.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -284,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Orders\" />
     <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>

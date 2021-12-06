@@ -23,6 +23,7 @@ namespace MovieShop.Controllers
         public List<Customers> Customers;
         public List<Orders> Orders;
         public List<OrderRows> OrderRows;
+        OrderDetails orderDetail;
 
         public AdminController()
         {
@@ -31,6 +32,7 @@ namespace MovieShop.Controllers
             Customers = new List<Customers>();
             Orders = new List<Orders>();
             OrderRows = new List<OrderRows>();
+            orderDetail = new OrderDetails();
         }
 
         // GET: Admin
@@ -41,12 +43,12 @@ namespace MovieShop.Controllers
             // if login succeeded write a welcome page and add a logout menu item to the navigation bar.
             return View();
         }
-        
+
         //Movie Admin
         public ActionResult MovieAdminPage()
         {
             Movies = MovieDB.Movies.OrderBy(m => m.Id).ToList();
-            
+
             if (Movies == null)
             {
                 return View();
@@ -68,15 +70,15 @@ namespace MovieShop.Controllers
             Movies Movie;
 
             MovieDB.Movies.Add(Movie = new Movies()
-                {
-                    Title = movie.Title,
-                    Director = movie.Director,
-                    RealYear = movie.RealYear,
-                    Price = movie.Price,
-                    Url = movie.Url,
-                    ImgFile =  WebImage.GetImageFromRequest(),
-                }
-             ) ;
+            {
+                Title = movie.Title,
+                Director = movie.Director,
+                RealYear = movie.RealYear,
+                Price = movie.Price,
+                Url = movie.Url,
+                ImgFile = WebImage.GetImageFromRequest(),
+            }
+             );
 
             Movie.Image = Movie.ImgFile.GetBytes();
             MovieDB.SaveChanges();
@@ -164,12 +166,12 @@ namespace MovieShop.Controllers
 
             decimal numberofRows = Customers.Count;
             decimal pageSize = 5;
-            int numberOfPages = (int) Math.Ceiling(numberofRows / pageSize);
+            int numberOfPages = (int)Math.Ceiling(numberofRows / pageSize);
 
             //int pageSize = 3;
             int pageNumber = (page ?? 1);
 
-            return View(Customers.ToPagedList(pageNumber, (int) pageSize));
+            return View(Customers.ToPagedList(pageNumber, (int)pageSize));
         }
 
         // ------------------------------- Microsoft generated methods ------------------------//
@@ -309,11 +311,132 @@ namespace MovieShop.Controllers
         //------------------------------------------------------------------------------------------------//
         //----------------------------------------- Order Admin ------------------------------------------//
         //------------------------------------------------------------------------------------------------//
-        public ActionResult OrderAdminPage() 
+        public ActionResult OrderAdminPage()
         {
             Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();
-            return View(Orders);
 
+            if (Session["OrderDetails"] != null)
+            {
+                ViewBag.OrderData = Session["OrderDetails"];
+            }
+
+
+                return View(Orders);
+        }
+
+        [HttpPost, ActionName("OrderAdminPage")]
+        public ActionResult GetOrderDetails()
+        {
+            int id = Convert.ToInt32(Request.Form["index"]);
+            Orders order = MovieDB.Orders.Find(id);
+            var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
+            var orderRows = MovieDB.OrderRows.Where(o => o.OrderId == id).ToList();
+            orderDetail.order = order;
+            orderDetail.customer = customer[0];
+            foreach (OrderRows orderRow in orderRows)
+            {
+                var movie = (Movies) MovieDB.Movies.Find(orderRow.MovieId);
+                orderDetail.shoppingCart.Add(new OrderDetails.ShoppingCart()
+                {
+                    qty = (int)(orderRow.Price / (double)movie.Price),
+                    movieTitle = movie.Title,
+                    price = (double)movie.Price,
+                    sum = orderRow.Price
+                });
+            }
+
+            foreach (var sc in orderDetail.shoppingCart)
+            {
+                orderDetail.totalSum += sc.sum;
+            }
+
+            orderDetail.vat = orderDetail.totalSum * 0.8;
+
+
+            Session["OrderDetails"] = orderDetail;
+            return RedirectToAction("OrderAdminPage");
+        }
+
+        // GET: Orders/Details/5
+        public ActionResult OrderDetails(int id)
+        {
+            return View();
+        }
+
+        // GET: Orders/Create
+        public ActionResult OrderCreate()
+        {
+            return View();
+        }
+
+        // POST: Orders/Create
+        [HttpPost]
+        public ActionResult OrderCreate(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Orders/Edit/5
+        public ActionResult OrderEdit(int id)
+        {
+            Orders order = MovieDB.Orders.Find(id);
+            var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
+            var orderRows = MovieDB.OrderRows.Where(or => or.OrderId == order.Id).ToList();
+            orderDetail.order = order;
+            orderDetail.customer = customer[0];
+
+            foreach (var orderRow in orderRows)
+            {
+            }
+
+            return View();
+        }
+
+        // POST: Orders/Edit/5
+        [HttpPost]
+        public ActionResult OrderEdit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Orders/Delete/5
+        public ActionResult OrderDelete(int id)
+        {
+            return View();
+        }
+
+        // POST: Orders/Delete/5
+        [HttpPost]
+        public ActionResult OrderDelete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

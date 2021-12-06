@@ -205,7 +205,87 @@
         }
     </div>
     <!------------------------- Carousel End --------------------------------------------->
+    <!------------------------- Statistics Begin ------------------------------------------->
 
+    <div class="slideshow-container">
+
+        <div class="slide-div fade" id="">
+            <div class="number-text">1/5</div>
+            <div class="statistics-slide">
+                <ol style="list-style-type: disc;">
+                    @for(int i = 0; i < ViewBag.TheTopFiveMostPopularMovies.Length; i++)
+                    {
+                    <li>@ViewBag.TheTopFiveMostPopularMovies[i][0]  (sold pcs.:  @ViewBag.TheTopFiveMostPopularMovies[i][1])</li>
+                    }
+                </ol>
+            </div>
+            <div class="caption-text">Top 5 Most Popular Movies</div>
+        </div>
+
+        <div class="slide-div fade">
+            <div class="number-text">2/5</div>
+            <div class="statistics-slide">
+                <ol style="list-style-type: disc;">
+                    @foreach (var movie in ViewBag.TheTopFiveNewestMovies)
+                    {
+                    <li>@movie.Title (Year of Release: @movie.RealYear)</li>
+                    }
+                </ol>
+            </div>
+            <div class="caption-text">Top 5 Newest Movies</div>
+        </div>
+
+        <div class="slide-div fade">
+            <div class="number-text">3/5</div>
+            <div class="statistics-slide">
+                <ol style="list-style-type: disc;">
+                    @foreach (var movie in ViewBag.TheFiveOldestMovies)
+                    {
+                        <li>@movie.Title (Year of Release: @movie.RealYear)</li>
+                    }
+
+                </ol>
+            </div>
+            <div class="caption-text">Top 5 Oldest Movies</div>
+        </div>
+
+        <div class="slide-div fade">
+            <div class="number-text">4/5</div>
+            <div class="statistics-slide">
+                <ol style="list-style-type: disc;">
+                    @foreach (var movie in ViewBag.TheFiveCheapestMovies)
+                    {
+                        <li>@movie.Title (Price (SEK/pcs) @movie.Price)</li>
+                    }
+
+                </ol>
+            </div>
+            <div class="caption-text">Top 5 Cheapest Movies</div>
+        </div>
+
+        <div class="slide-div fade">
+            <div class="number-text">5/5</div>
+            <div class="statistics-slide">
+                <ol style="list-style-type: none;">
+                    <li><i class="fas fa-star" style="color:gold;"></i> @ViewBag.TheCustomerWhoHaveMadeTheMostExpensiveOrder</li>
+                </ol>
+            </div>
+            <div class="caption-text">Top Customer</div>
+        </div>
+
+    </div>
+    <br>
+
+    <div style="text-align:center">
+        <span class="dot" id="dot"></span>
+        <span class="dot" id="dot"></span>
+        <span class="dot" id="dot"></span>
+        <span class="dot" id="dot"></span>
+        <span class="dot" id="dot"></span>
+    </div>
+
+
+    <!------------------------- Statistics End --------------------------------------------->
 
 
     <footer class="text-center">
@@ -223,6 +303,7 @@
     <!-- Bootstrap JS -->
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
     <script src='https://craig.global.ssl.fastly.net/js/mousetrap/mousetrap.min.js?a4098'></script>
+    <!--- Own developed JS -->
     <script src="~/Scripts/movieshop.js"></script>
 </body>
 </html>

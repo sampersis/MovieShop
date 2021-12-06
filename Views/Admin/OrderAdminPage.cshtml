@@ -1,40 +1,244 @@
 ﻿@model IEnumerable<MovieShop.Models.Orders>
 
 @{
-    ViewBag.Title = "OrderAdminPage";
+    ViewBag.Title = "Order Admin Page";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var Order = ViewBag.OrderData;
 }
 
-<h2>OrderAdminPage</h2>
+<h2>Order Admin Page</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table table-striped create-customer-table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </th>
-        <th></th>
-    </tr>
+<div class="container form-group" style="width:fit-content; text-align:center;">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+    <h4 style="background-color:#000; color:#FFF"> Choose an order to display the order details</h4>
+    @{
+        List<SelectListItem> orderList = new List<SelectListItem>();
+        foreach (var order in Model.Select(o => o.Id).Distinct())
+        {
+            orderList.Add(new SelectListItem { Text = order.ToString(), Value = order.ToString() });
+        }
+    }
+
+    @Html.DropDownList("OrderList", orderList, "Select an Order ID",
+        new
+        {
+            @class = "form-control selectpicker bg-transparent",
+            method = "post",
+            onchange = "PostOrderID(this.selectedIndex)",
+            id = "OrderIDList",
+            style = "padding-left:20px; margin: 5px auto;"
+        })
+    <form name="index-form" id="index-form" method="post" hidden>
+        <input type="hidden" name="index" id="index" value="0" />
+    </form>
+</div>
+<hr />
+
+@if (Order != null)
+{
+<div class="container" id="order-detail-container">
+    <form method="post" id="order-detail-form" oninput="handleEcent()">
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <div class="col-md-3">
+                <label>Order Id</label>
+                <input type="text" id="order-id" value="@Order.order.Id" disabled/>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>customer Id</label>
+                <input type="text" id="customer-id" value="@Order.customer.Id" disabled/>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>Order Date</label>
+                <input type="text" id="order-date" value="@Order.order.OrderDate" disabled/>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <div class="col-md-3">
+                <label>Forename</label>
+                <input class="can-be-modified-input" type="text" id="forename" value="@Order.customer.FirstName" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>Surname</label>
+                <input class="can-be-modified-input" type="text" id="surname" value="@Order.customer.LastName" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <div class="col-md-3">
+                <label>Phone No.</label>
+                <input class="can-be-modified-input" type="text" id="phone-number" value="@Order.customer.PhoneNo" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+            <div class="col-md-1"> </div>
+            <div class="col-md-3">
+                <label>Email</label>
+                <input class="can-be-modified-input" type="text" id="email" value="@Order.customer.EmailAddress" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <div class="col-md-3">
+                <label>Billing Address</label>
+                <input class="can-be-modified-input" type="text" id="billing-address" value="@Order.customer.BillingAddress" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>Billing zip</label>
+                <input class="can-be-modified-input" type="text" id="billing-zip" value="@Order.customer.BillingZip" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>Billing city</label>
+                <input class="can-be-modified-input" type="text" id="billing-city" value="@Order.customer.BillingCity" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <div class="col-md-3">
+                <label>Shipping Address</label>
+                <input class="can-be-modified-input" type="text" id="shipping-address" value="@Order.customer.DeliveryAddress" onkeypress="EnableSaveButton()" disabled/>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>Shipping zip</label>
+                <input class="can-be-modified-input" type="text" id="shipping-zip" value="@Order.customer.DeliveryZip" onkeypress="EnableSaveButton();" disabled/>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <label>Shipping city</label>
+                <input class="can-be-modified-input" type="text" id="shipping-city" value="@Order.customer.DeliveryCity" onkeypress="EnableSaveButton();" disabled/>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:3px;">
+            <div class="col-md-2">
+                <label>Title</label>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <label>Qty</label>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <label>Price (SEK)</label>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <label>Sum (SEK)</label>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            @foreach (var shoppingItem in Order.shoppingCart)
+            {
+                <div class="col-md-2">
+                    <input type="text" id="title" value="@shoppingItem.movieTitle" disabled/>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <input class="can-be-modified-input" type="text" id="qty" value="@shoppingItem.qty" onkeypress="EnableSaveButton()" disabled/>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <input type="text" id="price" value="@shoppingItem.price"/>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <input type="text" id="sum" value="@shoppingItem.sum" onchange="EnableSaveButton()" disabled/>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
+                <input type="text" id="total-sum" value="@Order.totalSum" disabled/>
+                <label>Total Sum (SEK)</label>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:30px;">
+            <div class="col-md-9" style="color:red; font-weight:bold;">Deletion and Modification of order data is irrevocable once committed.</div>
+            <div class="col-md-3">
+                <input type="text" id="vat" value="@Order.vat" disabled/>
+                <label>VAT (SEK)</label>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <label>Delete</label>
+            <input type="radio" id="radio-delete" style="cursor: pointer;" onchange="modificationMode('#radio-delete')" />
+            <label>Edit</label>
+            <input type="radio" id="radio-edit" style="cursor: pointer;" onchange="modificationMode('#radio-edit')" />
+            <input class="btn btn-danger" type="button" id="save-changes-btn" value="Save Changes" disabled />
+            <input class="btn btn-success" type="button" value="Cancel" onclick="cancelModification()" />
+        </div>
+    </form>
+</div>
 }
+<script>
 
-</table>
+    function handleEcent() {
+        console.log("Form Event");
+        $("#order-detail-form").get(0).reset();
+    }
+
+    //document.getElementById("order-detail-form").addEventListener("click", function () {
+    //    console.log("Form Event: " + event);
+    //    event.preventDefault();
+    //});
+
+    function PostOrderID(index) {
+        //Get the value of option selected in the dropdown list
+        var id = document.querySelector("#OrderIDList").item(index).getAttribute("value");
+
+        // Set the value of input form and then post the form
+        if ($("#index").val(id) != "0") {
+            document.getElementById("index-form").submit();
+        }
+    }
+
+    function handler(event) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    function modificationMode(id) {
+        if ($(id).is(":checked") == true) {
+            $(id).siblings().prop("checked", false);
+        }
+
+        if (id == "#radio-delete") {
+            $("#order-detail-container").css("border", "solid 3px red");
+            $("order-detail-form :input").prop('disabled', true);
+            $(".can-be-modified-input").css({ "user-select": "none", "cursor": "none", "background-color": "transparent" });
+            $("#order-detail-form").get(0).reset();
+            $(id).prop("checked", true); // because form reset unchecks the delete radio
+            $("#save-changes-btn").val("Delete The Order");
+            $("#save-changes-btn").prop('disabled', false);
+        }
+        else {
+            $("#order-detail-container").css("border", "");
+            $("#save-changes-btn").prop('disabled', true);
+            $(".can-be-modified-input").css({ "user-select": "text", "cursor": "pointer", "background-color": "white" });
+            $(".can-be-modified-input").prop("disabled", false);
+            $("#save-changes-btn").val("Save Changes");
+
+        }
+    }
+
+    function EnableSaveButton() {
+        console.log("enabling the Save Changes button");
+        $("#save-changes-btn").prop('disabled', false);
+    }
+
+    function cancelModification() {
+/*        $("#order-detail-container").slideUp();*/
+        $("#order-detail-container").animate({ height: 'toggle', opacity: 'toggle' }, 'slow');
+    }
+
+</script>

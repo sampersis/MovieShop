@@ -91,4 +91,19 @@
     font-size: 2rem;
 }
 
+footer {
+    position: absolute;
+    bottom: 0;
+    background-color: #F8F8F8;
+    height: 30px;
+    margin-left: 10%;
+    border: solid 1px #e7e7e7;
+    border-radius: 5px;
+    padding-top: 5px;
+}
 
+#order-detail-form input:not([type=submit],[type=button]){
+    background-color: transparent;
+    cursor: none;
+    user-select: none;
+}

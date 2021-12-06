@@ -14,15 +14,6 @@ class ShoppingItem
     }
 }
 
-// CTRL+PageUp directs to Admin Pages and CTRL+PageDown directs to Shop pages
-//Mousetrap.bind('shift+alt+a', function (e) {
-//    console.log('shift+alt+a');
-//    /*    window.location.href = "/Admin/MovieAdminPage";*/
-//    window.open("/Admin/AdminLoginPage");
-//    return false;
-//});
-
-
 
 // Hide the Shopping Cart Button at start-up
 $(function () { $("#shopping-cart-table").hide(); });
@@ -270,22 +261,23 @@ function ChangeQty(id) {
 
 //Rest Order Registration Form
 function resetOrderRegistrationForm() {
-    $("#customer-first-name").val("");
-    $("#customer-last-name").val("");
-    $("#customer-email").val("");
-    $("#customer-phone").val("");
-    $("#customer-billing-address").val("");
-    $("#customer-billing-zip").val("");
-    $("#customer-billing-city").val("");
-    $("#customer-shipping-address").val("");
-    $("#customer-shipping-zip").val("");
-    $("#customer-shipping-city").val("");
-    if ($("#shipping-address-check").is(":checked") == true) {
-        $("#shipping-address-check").prop("checked", false);
-    }
-    if ($("#create-account").is(":checked") == true) {
-        $("#create-account").prop("checked", false);
-    }
+    $("#customer-details").get(0).reset();
+    //$("#customer-first-name").val("");
+    //$("#customer-last-name").val("");
+    //$("#customer-email").val("");
+    //$("#customer-phone").val("");
+    //$("#customer-billing-address").val("");
+    //$("#customer-billing-zip").val("");
+    //$("#customer-billing-city").val("");
+    //$("#customer-shipping-address").val("");
+    //$("#customer-shipping-zip").val("");
+    //$("#customer-shipping-city").val("");
+    //if ($("#shipping-address-check").is(":checked") == true) {
+    //    $("#shipping-address-check").prop("checked", false);
+    //}
+    //if ($("#create-account").is(":checked") == true) {
+    //    $("#create-account").prop("checked", false);
+    //}
 }
 
 function GetTheLatestShoppingList() {                          
@@ -395,3 +387,27 @@ function UncheckOtherPaymentOptions(id) {
     }
 }
 
+//----------------------Slide ------------------------------//
+
+$(function () { 
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("slide-div");
+    var dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    setTimeout(showSlides, 6500); // Change slide every 6.5 seconds
+}
+
+});
