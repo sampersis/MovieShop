@@ -261,23 +261,22 @@ function ChangeQty(id) {
 
 //Rest Order Registration Form
 function resetOrderRegistrationForm() {
-    $("#customer-details").get(0).reset();
-    //$("#customer-first-name").val("");
-    //$("#customer-last-name").val("");
-    //$("#customer-email").val("");
-    //$("#customer-phone").val("");
-    //$("#customer-billing-address").val("");
-    //$("#customer-billing-zip").val("");
-    //$("#customer-billing-city").val("");
-    //$("#customer-shipping-address").val("");
-    //$("#customer-shipping-zip").val("");
-    //$("#customer-shipping-city").val("");
-    //if ($("#shipping-address-check").is(":checked") == true) {
-    //    $("#shipping-address-check").prop("checked", false);
-    //}
-    //if ($("#create-account").is(":checked") == true) {
-    //    $("#create-account").prop("checked", false);
-    //}
+    $("#customer-first-name").val("");
+    $("#customer-last-name").val("");
+    $("#customer-email").val("");
+    $("#customer-phone").val("");
+    $("#customer-billing-address").val("");
+    $("#customer-billing-zip").val("");
+    $("#customer-billing-city").val("");
+    $("#customer-shipping-address").val("");
+    $("#customer-shipping-zip").val("");
+    $("#customer-shipping-city").val("");
+    if ($("#shipping-address-check").is(":checked") == true) {
+        $("#shipping-address-check").prop("checked", false);
+    }
+    if ($("#create-account").is(":checked") == true) {
+        $("#create-account").prop("checked", false);
+    }
 }
 
 function GetTheLatestShoppingList() {                          

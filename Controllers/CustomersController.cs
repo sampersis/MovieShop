@@ -324,12 +324,10 @@ namespace MovieShop.Controllers
             Orders order = new Models.Orders();
             OrderRows orderRow = new OrderRows();
             Boolean CreateAccount = Convert.ToBoolean(Request.Form["CreateAccountCheckBox"]);
-            String [][] shoppingList = ShoppingList(Request.Form["FinalShoppingList"]);
+            String[][] shoppingList = ShoppingList(Request.Form["FinalShoppingList"]);
+            Session["ShoppingCart"] = ShoppingList(Request.Form["FinalShoppingList"]);
 
             //// Insert Customer data in the database, if the customer does not exist
-            Session["ShoppingCart"] = ShoppingList(Request.Form["FinalShoppingList"]);
-            
-
             //Check whether User has already an account in AspNetUsers
             if (CreateAccount)
             {

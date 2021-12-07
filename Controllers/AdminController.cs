@@ -13,6 +13,8 @@ using System.IO;
 using System.Web.Helpers;
 using PagedList;
 using System.Net;
+using System.Web.Services;
+using System.Web.Script.Services;
 
 namespace MovieShop.Controllers
 {
@@ -328,7 +330,9 @@ namespace MovieShop.Controllers
         public ActionResult GetOrderDetails()
         {
             int id = Convert.ToInt32(Request.Form["index"]);
-            if (id != 0)
+            string operation = "";
+            string[] data = new string[2];
+            if (id != 0) // To Show the order details
             {
                 Orders order = MovieDB.Orders.Find(id);
                 var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
@@ -360,6 +364,22 @@ namespace MovieShop.Controllers
             }
             else
             {
+                operation = Request.Form["OperationPlusOrderid"];
+
+                if (String.IsNullOrEmpty(operation))
+                {
+                    data = operation.Split(':');
+
+                    if (data[0] == "edit")
+                    {
+                        OrderEdit(data[1]);
+                    }
+                    else if (data[0] == "delete") ;
+                    {
+                        OrderDelete(Convert.ToInt32(data[1]));
+                    }
+                }
+
                 Session["OrderDetails"] = null;
             }
 
@@ -395,57 +415,26 @@ namespace MovieShop.Controllers
             }
         }
 
-        // GET: Orders/Edit/5
-        public ActionResult OrderEdit(int id)
-        {
-            Orders order = MovieDB.Orders.Find(id);
-            var customer = MovieDB.Customers.Where(c => c.Id == order.CustomerId).ToList();
-            var orderRows = MovieDB.OrderRows.Where(or => or.OrderId == order.Id).ToList();
-            orderDetail.order = order;
-            orderDetail.customer = customer[0];
 
-            foreach (var orderRow in orderRows)
-            {
-            }
-
-            return View();
-        }
-
-        // POST: Orders/Edit/5
-        [HttpPost]
-        public ActionResult OrderEdit(int id, FormCollection collection)
+        public void OrderEdit(string data)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                
             }
             catch
             {
-                return View();
             }
         }
 
-        // GET: Orders/Delete/5
-        public ActionResult OrderDelete(int id)
-        {
-            return View();
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost]
-        public ActionResult OrderDelete(int id, FormCollection collection)
+        public void OrderDelete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
             }
         }
     }

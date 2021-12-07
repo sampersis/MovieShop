@@ -41,76 +41,76 @@
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Order Id</label>
-                <input type="text" id="order-id" value="@Order.order.Id" disabled/>
+                <input type="text" name="order-id" id="order-id" value="@Order.order.Id" disabled />
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>customer Id</label>
-                <input type="text" id="customer-id" value="@Order.customer.Id" disabled/>
+                <input type="text" id="customer-id" value="@Order.customer.Id" disabled />
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Order Date</label>
-                <input type="text" id="order-date" value="@Order.order.OrderDate" disabled/>
+                <input type="text" id="order-date" value="@Order.order.OrderDate" disabled />
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Forename</label>
-                <input class="can-be-modified-input" type="text" id="forename" value="@Order.customer.FirstName" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="forename" value="@Order.customer.FirstName" onkeypress="EnableSaveButton()" disabled />
             </div>
 
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Surname</label>
-                <input class="can-be-modified-input" type="text" id="surname" value="@Order.customer.LastName" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="surname" value="@Order.customer.LastName" onkeypress="EnableSaveButton()" disabled />
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Phone No.</label>
-                <input class="can-be-modified-input" type="text" id="phone-number" value="@Order.customer.PhoneNo" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="phone-number" value="@Order.customer.PhoneNo" onkeypress="EnableSaveButton()" disabled />
             </div>
             <div class="col-md-1"> </div>
             <div class="col-md-3">
                 <label>Email</label>
-                <input class="can-be-modified-input" type="text" id="email" value="@Order.customer.EmailAddress" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="email" value="@Order.customer.EmailAddress" onkeypress="EnableSaveButton()" disabled />
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Billing Address</label>
-                <input class="can-be-modified-input" type="text" id="billing-address" value="@Order.customer.BillingAddress" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="billing-address" value="@Order.customer.BillingAddress" onkeypress="EnableSaveButton()" disabled />
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Billing zip</label>
-                <input class="can-be-modified-input" type="text" id="billing-zip" value="@Order.customer.BillingZip" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="billing-zip" value="@Order.customer.BillingZip" onkeypress="EnableSaveButton()" disabled />
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Billing city</label>
-                <input class="can-be-modified-input" type="text" id="billing-city" value="@Order.customer.BillingCity" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="billing-city" value="@Order.customer.BillingCity" onkeypress="EnableSaveButton()" disabled />
             </div>
         </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-3">
                 <label>Shipping Address</label>
-                <input class="can-be-modified-input" type="text" id="shipping-address" value="@Order.customer.DeliveryAddress" onkeypress="EnableSaveButton()" disabled/>
+                <input class="can-be-modified-input" type="text" id="shipping-address" value="@Order.customer.DeliveryAddress" onkeypress="EnableSaveButton()" disabled />
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Shipping zip</label>
-                <input class="can-be-modified-input" type="text" id="shipping-zip" value="@Order.customer.DeliveryZip" onkeypress="EnableSaveButton();" disabled/>
+                <input class="can-be-modified-input" type="text" id="shipping-zip" value="@Order.customer.DeliveryZip" onkeypress="EnableSaveButton();" disabled />
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <label>Shipping city</label>
-                <input class="can-be-modified-input" type="text" id="shipping-city" value="@Order.customer.DeliveryCity" onkeypress="EnableSaveButton();" disabled/>
+                <input class="can-be-modified-input" type="text" id="shipping-city" value="@Order.customer.DeliveryCity" onkeypress="EnableSaveButton();" disabled />
             </div>
         </div>
 
@@ -136,19 +136,19 @@
             @foreach (var shoppingItem in Order.shoppingCart)
             {
                 <div class="col-md-2">
-                    <input type="text" id="title" value="@shoppingItem.movieTitle" disabled/>
+                    <input type="text" id="title" value="@shoppingItem.movieTitle" disabled />
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
-                    <input class="can-be-modified-input" type="text" id="qty" value="@shoppingItem.qty" onkeypress="EnableSaveButton()" disabled/>
+                    <input class="can-be-modified-input" type="text" id="qty" value="@shoppingItem.qty" onkeypress="EnableSaveButton()" disabled />
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
-                    <input type="text" id="price" value="@shoppingItem.price"/>
+                    <input type="text" id="price" value="@shoppingItem.price" />
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
-                    <input type="text" id="sum" value="@shoppingItem.sum" onchange="EnableSaveButton()" disabled/>
+                    <input type="text" id="sum" value="@shoppingItem.sum" onchange="EnableSaveButton()" disabled />
                 </div>
             }
         </div>
@@ -156,7 +156,7 @@
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-9"></div>
             <div class="col-md-3">
-                <input type="text" id="total-sum" value="@Order.totalSum" disabled/>
+                <input type="text" id="total-sum" value="@Order.totalSum" disabled />
                 <label>Total Sum (SEK)</label>
             </div>
         </div>
@@ -164,19 +164,23 @@
         <div class="col-md-12" style="margin-bottom:30px;">
             <div class="col-md-9" style="color:red; font-weight:bold;">Deletion and Modification of order data is irrevocable once committed.</div>
             <div class="col-md-3">
-                <input type="text" id="vat" value="@Order.vat" disabled/>
+                <input type="text" id="vat" value="@Order.vat" disabled />
                 <label>VAT (SEK)</label>
             </div>
         </div>
 
+
         <div class="col-md-12" style="margin-bottom:10px;">
             <label>Delete</label>
-            <input type="radio" id="radio-delete" style="cursor: pointer;" onchange="modificationMode('#radio-delete')" />
+            <input type="radio" id="radio-delete" style="cursor: pointer;" onchange="ModificationMode('#radio-delete')" />
             <label>Edit</label>
-            <input type="radio" id="radio-edit" style="cursor: pointer;" onchange="modificationMode('#radio-edit')" />
-            <input class="btn btn-danger" type="button" id="save-changes-btn" value="Save Changes" disabled />
-            <input class="btn btn-success" type="button" value="Cancel" id="cancel" onclick="cancelModification()" />
+            <input type="radio" id="radio-edit" style="cursor: pointer;" onchange="ModificationMode('#radio-edit')" />
+            <input class="btn btn-danger" type="button" name="" id="save-changes-btn" value="Save Changes" onclick="ExecModfication()" disabled />
+            <input class="btn btn-success" type="button" value="Cancel" id="cancel" onclick="CancelModification()" />
         </div>
+    </form>
+    <form name="operation-plus-orderid-form" id="operation-plus-orderid-form" method="post" hidden>
+        <input type="hidden" name="OperationPlusOrderid" id="operation-plus-orderid" value="none" />
     </form>
 </div>
 
@@ -184,10 +188,6 @@
 }
 <script>
 
-    //function handleEcent() {
-    //    console.log("Form Event");
-    //    $("#order-detail-form").get(0).reset();
-    //}
 
     function PostOrderID(index) {
         //Get the value of option selected in the dropdown list
@@ -199,7 +199,7 @@
         }
     }
 
-    function modificationMode(id) {
+    function ModificationMode(id) {
         if ($(id).is(":checked") == true) {
             $(id).siblings().prop("checked", false);
         }
@@ -228,7 +228,7 @@
         $("#save-changes-btn").prop('disabled', false);
     }
 
-    function cancelModification() {
+    function CancelModification() {
         console.log("Cancel button pressed!");
         setTimeout(function () {
 
@@ -241,6 +241,30 @@
         }, 500);
 
         $("#order-detail-container").slideUp();
+    }
+
+    function ExecModfication() {
+
+        if ($("#radio-delete").is(":checked") == true) {
+
+            console.log("The Delete Radio is checked + Value of the button: " + $("#save-changes-btn").val());
+            var data = "delete:" + $("#order-id").val();
+            $("#operation-plus-orderid").val(data);
+        }
+        else {
+
+            console.log("The Edit Radio is checked + Value of the button: " + $("#save-changes-btn").val());
+
+            var data = "edit:" + $("#order-id").val() + "-" + $("#customer-id").val() + "-" +
+                $("#forename").val() + "-" + $("#surname").val() + "-" + $("#phone-number").val() + "-" +
+                $("#email").val() + "-" + $("#billing-address").val() + "-" + $("#billing-zip").val() + "-" + $("#billing-city").val() + "-" +
+                $("#shipping-address").val() + "-" + $("#shipping-zip").val() + "-" + $("#shipping-city").val();
+            $("#operation-plus-orderid").val(data);
+            $("#save-changes-btn").attr("name", "edit");
+
+        }
+
+        ($("#operation-plus-orderid-form")).submit();
     }
 
 </script>

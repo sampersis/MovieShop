@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    var ShoppingCart = Session["ShoppingCart"] as string[][];
 }
 
 <!DOCTYPE html>
@@ -65,9 +66,9 @@
                         @{
                             string CustomerId = "";
                             int CustomerIdLength = ViewBag.Customer.Id.ToString().Length;
-                            int numberÓfZeroStrLength = 10 - CustomerIdLength;
+                            int numberOfZeroStrLength = 10 - CustomerIdLength;
 
-                            for (int i = 0; i < numberÓfZeroStrLength; i++)
+                            for (int i = 0; i < numberOfZeroStrLength; i++)
                             {
                                 CustomerId += "0";
                             }
@@ -93,7 +94,7 @@
                     decimal TotalSum = 0;
                     double VAT = 0;
                     decimal Sum = 0;
-                    foreach (var movie in ViewBag.FinalShoppingList)
+                    foreach (string[] movie in ShoppingCart)
                     {
                         Sum = Convert.ToDecimal(@movie[3]);
                         <tr>
