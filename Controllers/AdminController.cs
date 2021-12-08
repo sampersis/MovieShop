@@ -15,9 +15,51 @@ using PagedList;
 using System.Net;
 using System.Web.Services;
 using System.Web.Script.Services;
+using System.Configuration;
 
 namespace MovieShop.Controllers
 {
+    public class AllowedIPAttribute : ActionFilterAttribute
+    {
+
+        //overrinding OnActionExecuting method to check Ip, before any code from Action is executed.
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            //Retrieve user's IP
+            string usersIpAddress = HttpContext.Current.Request.UserHostAddress;
+
+            if (!checkIp(usersIpAddress))
+            {
+                //return 403 Forbidden HTTP code
+                filterContext.Result = new HttpStatusCodeResult(404);
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
+
+
+
+        public static bool checkIp(string usersIpAddress)
+        {
+            //get allowedIps Setting from Web.Config file and remove whitespaces from int
+            string allowedIps = ConfigurationManager.AppSettings["allowedIPs"].Replace(" ", "").Trim();
+
+
+            //convert allowedIPs string to table by exploding string with ';' delimiter
+            string[] ips = allowedIps.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+            //iterate ips table
+            foreach (var ip in ips)
+            {
+                if (ip.Equals(usersIpAddress))
+                    return true; //return true confirming that user's address is allowed
+            }
+
+            //if we get to this point, that means that user's address is not allowed, therefore returning false
+            return false;
+
+        }
+    }
     public class AdminController : Controller
     {
         public ApplicationDbContext MovieDB;
@@ -38,7 +80,7 @@ namespace MovieShop.Controllers
         }
 
         // GET: Admin
-
+        [AllowedIP]
         public ActionResult AdminLoginPage()
         {
             // If login Failed inform the user
@@ -49,6 +91,7 @@ namespace MovieShop.Controllers
         //------------------------------------------------------------------------------------------------//
         //----------------------------- Movie Admin Page ----------------------------------------------//
         //------------------------------------------------------------------------------------------------//
+        [AllowedIP]
         public ActionResult MovieAdminPage()
         {
             Movies = MovieDB.Movies.OrderBy(m => m.Id).ToList();
@@ -63,6 +106,7 @@ namespace MovieShop.Controllers
             }
         }
 
+        [AllowedIP]
         public ActionResult CreateMovieAdminPage()
         {
             return View();
@@ -90,6 +134,7 @@ namespace MovieShop.Controllers
             return RedirectToAction("MovieAdminPage");
         }
 
+        [AllowedIP]
         public ActionResult DeleteMovieAdminPage(int Id)
         {
             var movie = MovieDB.Movies.FirstOrDefault(m => m.Id == Id);
@@ -121,6 +166,7 @@ namespace MovieShop.Controllers
             }
         }
 
+        [AllowedIP]
         public ActionResult ModifyMovieAdminPage(int Id)
         {
             var movie = MovieDB.Movies.FirstOrDefault(m => m.Id == Id);
@@ -164,6 +210,7 @@ namespace MovieShop.Controllers
         //------------------------------------------------------------------------------------------------//
         //----------------------------- Customer Admin Page ----------------------------------------------//
         //------------------------------------------------------------------------------------------------//
+        [AllowedIP]
         public ActionResult CustomerAdminPage(string sortOrder, string currentFilter, string searchString, int? page)
         {
             Customers = MovieDB.Customers.OrderBy(c => c.LastName).ToList();
@@ -180,6 +227,7 @@ namespace MovieShop.Controllers
 
         // ------------------------------- Microsoft generated methods ------------------------//
         // GET: Customers/Create
+        [AllowedIP]
         public ActionResult CreateCustomer()
         {
             return View();
@@ -204,6 +252,7 @@ namespace MovieShop.Controllers
 
 
         // GET: Customers/Edit/5
+        [AllowedIP]
         public ActionResult EditCustomer(int? id)
         {
             if (id == null)
@@ -235,6 +284,7 @@ namespace MovieShop.Controllers
         }
 
         // GET: Customers/Delete/5
+        [AllowedIP]
         public ActionResult DeleteCustomer(int? id)
         {
             if (id == null)
@@ -315,6 +365,7 @@ namespace MovieShop.Controllers
         //------------------------------------------------------------------------------------------------//
         //----------------------------------------- Order Admin ------------------------------------------//
         //------------------------------------------------------------------------------------------------//
+        [AllowedIP]
         public ActionResult OrderAdminPage()
         {
             Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();
@@ -416,7 +467,7 @@ namespace MovieShop.Controllers
         }
 
 
-        public void OrderEdit(string data)
+        private void OrderEdit(string data)
         {
             try
             {
@@ -427,7 +478,7 @@ namespace MovieShop.Controllers
             }
         }
 
-        public void OrderDelete(int id)
+        private void OrderDelete(int id)
         {
             try
             {
