@@ -15,6 +15,7 @@ namespace MovieShop.Models
 
         public class ShoppingCart
         {
+            public int movieId { get; set; }
             public string movieTitle { get; set; }
             public int qty { get; set; }
             public double price { get; set; }

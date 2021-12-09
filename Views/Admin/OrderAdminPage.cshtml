@@ -132,26 +132,34 @@
             </div>
         </div>
 
-        <div class="col-md-12" style="margin-bottom:10px;">
-            @foreach (var shoppingItem in Order.shoppingCart)
-            {
-                <div class="col-md-2">
-                    <input type="text" id="title" value="@shoppingItem.movieTitle" disabled />
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2">
-                    <input class="can-be-modified-input" type="text" id="qty" value="@shoppingItem.qty" onkeypress="EnableSaveButton()" disabled />
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2">
-                    <input type="text" id="price" value="@shoppingItem.price" />
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2">
-                    <input type="text" id="sum" value="@shoppingItem.sum" onchange="EnableSaveButton()" disabled />
-                </div>
-            }
-        </div>
+        @{Random random = new Random(); int identity = 1;}
+    <div class="col-md-12" id="movie-list" style="margin-bottom:10px;">
+        @foreach (var shoppingItem in Order.shoppingCart)
+        {
+            // mimic the total number of a specific movie available in the shop
+            int maxQty = random.Next(4, 11);
+            string QtyId = "qty" + identity.ToString();
+
+        <p id="@shoppingItem.movieId" hidden>@shoppingItem.movieId</p>
+            <div class="col-md-2">
+                <input type="text" id="title" value="@shoppingItem.movieTitle" disabled />
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <input class="can-be-modified-input" type="number" id="@QtyId" value="@shoppingItem.qty" min="0" max="@maxQty" onchange="Recalc('#'+this.id)" disabled />
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <input type="text" id="price" value="@shoppingItem.price" />
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                <input type="text" id="sum" value="@shoppingItem.sum" onchange="" disabled />
+            </div>
+
+            identity++;
+        }
+    </div>
 
         <div class="col-md-12" style="margin-bottom:10px;">
             <div class="col-md-9"></div>
@@ -187,8 +195,6 @@
 
 }
 <script>
-
-
     function PostOrderID(index) {
         //Get the value of option selected in the dropdown list
         var id = document.querySelector("#OrderIDList").item(index).getAttribute("value");
@@ -225,7 +231,9 @@
 
     function EnableSaveButton() {
         console.log("enabling the Save Changes button");
-        $("#save-changes-btn").prop('disabled', false);
+        if ($("#save-changes-btn").prop('disabled') == true) {
+            $("#save-changes-btn").prop('disabled', false);
+        }
     }
 
     function CancelModification() {
@@ -241,6 +249,26 @@
         }, 500);
 
         $("#order-detail-container").slideUp();
+    }
+
+    let shopList = "|";
+    function shoppingList() {
+
+        var length = $("#movie-list").children().length;
+        var index = 0;
+
+        while (index < length) {
+            console.log($('#movie-list').children().eq(index).attr("id"));
+            shopList = shopList + $('#movie-list').children().eq(index).attr("id") + "-";
+            index += 3;
+            console.log($('#movie-list').children().eq(index).children().first().val());
+            shopList = shopList + $('#movie-list').children().eq(index).children().first().val() + "-";
+            index += 4;
+            console.log($('#movie-list').children().eq(index).children().first().val());
+            shopList = shopList + $('#movie-list').children().eq(index).children().first().val() + ";";
+            index++;
+            console.log(shopList);
+        }
     }
 
     function ExecModfication() {
@@ -259,6 +287,10 @@
                 $("#forename").val() + "-" + $("#surname").val() + "-" + $("#phone-number").val() + "-" +
                 $("#email").val() + "-" + $("#billing-address").val() + "-" + $("#billing-zip").val() + "-" + $("#billing-city").val() + "-" +
                 $("#shipping-address").val() + "-" + $("#shipping-zip").val() + "-" + $("#shipping-city").val();
+
+            shoppingList();
+            data += shopList;
+
             $("#operation-plus-orderid").val(data);
             $("#save-changes-btn").attr("name", "edit");
 
@@ -266,5 +298,62 @@
 
         ($("#operation-plus-orderid-form")).submit();
     }
+
+    // Recalculate the sum, total sum and vat for the specific movie
+
+        function Recalc(id) {
+
+        if ($("#save-changes-btn").prop('disabled') == true) {
+            $("#save-changes-btn").prop('disabled', false);
+        }
+
+        console.log("Calc function call " + id + " " + $(id).val());
+        console.log("Price: " + $(id).parent().nextAll().eq(1).children().first().val());
+        console.log("Sum: " + $(id).parent().nextAll().eq(3).children().first().val());
+        console.log("Total Sum: " + $("#total-sum").val());
+        console.log("VAT: " + $("#vat").val());
+
+        var moviePrice = $(id).parent().nextAll().eq(1).children().first();
+        var movieSum = $(id).parent().nextAll().eq(3).children().first();
+        var qty = parseInt($(id).val());
+        var qtyMax = parseInt($(id).attr("max"));
+
+        // validate the qty value
+        if (isNaN(qty)) {
+            qty = 0;
+        }
+        else if (qty < 0) {
+                qty = 0;
+        }
+        else if(qty > qtyMax) {
+            qty = qtyMax;
+        }
+
+        $(id).val(Math.trunc(qty)); // set the value of qty correctly, because users can enter any number
+        qty = parseInt($(id).val()); //get the correct value
+
+        var priceOfMovie = parseInt($(moviePrice).val());
+        var oldSum = parseInt($(movieSum).val());
+        var sum = qty * priceOfMovie;
+        var totalSum = parseFloat(parseInt($("#total-sum").val()) + sum - oldSum).toFixed(2);
+        var vat = parseFloat(totalSum * 0.2).toFixed(2);
+
+        $(movieSum).val(sum);
+        $("#total-sum").val(totalSum);
+        $("#vat").val(vat);
+    }
+
+    //function recursiveEach(element) {
+    //    $(element).children().each(function () {
+    //        var $currentElement = $(this);
+    //        // Show element
+    //        console.info($currentElement);
+    //        // Show events handlers of current element
+    //        console.log($currentElement.val());
+    //        // Loop her children
+    //        recursiveEach($currentElement);
+    //    });
+    //}
+
 
 </script>

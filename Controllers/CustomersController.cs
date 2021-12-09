@@ -384,7 +384,7 @@ namespace MovieShop.Controllers
             ViewBag.Date = order.OrderDate;
             ViewBag.Customer = Customer;
             ViewBag.Payment = "Master Card";
-            ViewBag.FinalShoppingList = Session["ShoppingCart"];
+            //ViewBag.FinalShoppingList = Session["ShoppingCart"];
 
             return View();
         }
