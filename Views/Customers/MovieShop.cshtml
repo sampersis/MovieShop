@@ -21,19 +21,8 @@
 
     <!-- CSS Style Sheets -->
     <link rel="stylesheet" href="~/Content/movieshoppage.css">
-
 </head>
 <body>
-
- <div style='background-color:black; height:100vh; padding-left: 25%;' id="loading-div">
-     <h1 style="color:white; margin:0 auto;">
-         Movie Shop Loading
-         <span class="first-dot" style="font-size:10rem; color:yellow;">.</span>
-         <span class="second-dot" style="font-size: 10rem; color:green;">.</span>
-         <span class="third-dot" style="font-size: 10rem; color: red;">.</span>
-     </h1>
-    <img src='/Images/circleanimation.gif' style='width: 70%;' />
- </div>
 
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -110,11 +99,9 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
-
-
     <!------------------------- Carousel Start ------------------------------------------->
-    <div class="container d-grid carousel-container" id="container-div" hidden>
+
+    <div class='container d-grid carousel-container' id='container-div' hidden>
         <div id="movie-shop-carousel" class="carousel slide" data-interval="false">
 
             <!-- Wrapper for slides -->
@@ -347,17 +334,43 @@
     <!--- Own developed JS -->
     <script src="~/Scripts/movieshop.js"></script>
 
-    <script>
-        window.onload = function () {
-            var displaysetting = $('body').css('display');
-            setTimeout(function () {
-                // fadeOut complete and hide
-                $("#loading-div").hide(5000, "swing", function () {});
-                $("#container-div").show(5000, "swing", function () {});
-                //Show the carousel
-            }, 2000);
-        }
-    </script>
+    @if (Session["Loading"] == null)
+    {
+        <script>
+            window.onload = function () {
+                loading();
+            }
+
+            function loading() {
+                $('body').prepend(
+                    "<div style='background-color:black; height:100vh; padding-left: 25%;' id='loading-div'>" +
+                    "<h1 style='color:white; margin:0 auto;'> Movie Shop Loading" +
+                    "<span class='first-dot' style='font-size:10rem; color:yellow;'>.</span >" +
+                    "<span class='second-dot' style='font-size:10rem; color:green;'>.</span>" +
+                    "<span class='third-dot' style='font-size:10rem; color: red;'>.</span>" +
+                    "</h1>" + "<img src='/Images/circleanimation.gif' style='width: 65%;' />" +
+                    "</div>");
+
+                setTimeout(function () {
+                    $("#loading-div").hide(5000, "swing", function () { });
+                    $("#container-div").show(5000, "swing", function () {
+                        $("#loading-div").remove();
+                        $("#container-div").prop('hidden', false);
+                    });
+                }, 2000);
+
+                loading = function () { };
+            }
+
+        </script>
+        Session["Loading"] = true;
+    }
+    else
+    {
+        <script>
+            $('#container-div').prop('hidden', false);
+        </script>
+    }
 
 </body>
 </html>
