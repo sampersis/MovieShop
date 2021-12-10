@@ -439,6 +439,8 @@ namespace MovieShop.Controllers
             return RedirectToAction("OrderAdminPage");
         }
 
+        // Writes changes to customer data and customer order to the database.
+        // Optional: an email shall be sent out. (Not implemented)
         private void OrderEdit(string data)
         {
             string[] customerAndOrderInfo = data.Split('|');
@@ -450,7 +452,7 @@ namespace MovieShop.Controllers
             int customerId = Convert.ToInt32(customerData[1]);
 
 
-            for (int i = 0; i < shoppingData.Length; i++)
+            for (int i = 0; i < shoppingData.Length - 1; i++)
             {
                 shoppinglist[i] = shoppingData[i].Split('-');
             }
@@ -493,11 +495,11 @@ namespace MovieShop.Controllers
                    
                     if (orderRow != null)
                     {
-                        int quantity = Convert.ToInt32(shoppinglist[i][0]);
+                        int quantity = Convert.ToInt32(shoppinglist[i][1]);
 
                         if ( quantity == 0)
                         {   //remove the OrderRow from the OrderRows Table
-                            int orderRowsCount = MovieDB.OrderRows.Where((or) => or.OrderId == orderId).ToList().Count();
+                            int orderRowsCount = MovieDB.OrderRows.Where(or => or.OrderId == orderId).ToList().Count();
 
                             MovieDB.OrderRows.Remove(orderRow);
 

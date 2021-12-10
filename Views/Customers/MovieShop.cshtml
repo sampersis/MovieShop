@@ -25,6 +25,16 @@
 </head>
 <body>
 
+ <div style='background-color:black; height:100vh; padding-left: 25%;' id="loading-div">
+     <h1 style="color:white; margin:0 auto;">
+         Movie Shop Loading
+         <span class="first-dot" style="font-size:10rem; color:yellow;">.</span>
+         <span class="second-dot" style="font-size: 10rem; color:green;">.</span>
+         <span class="third-dot" style="font-size: 10rem; color: red;">.</span>
+     </h1>
+    <img src='/Images/circleanimation.gif' style='width: 70%;' />
+ </div>
+
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -32,10 +42,10 @@
                 <img class="navbar-toggler-icon company-logo" src="~/Images/OldFilmCamera.png" />
             </button>
             @*<div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#movie-shop-nav" aria-controls="movie-shop-nav" aria-expanded="false">
-                </button>
-                <img class="company-logo" src="~/Images/OldFilmCamera.png" />
-            </div>*@
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#movie-shop-nav" aria-controls="movie-shop-nav" aria-expanded="false">
+                    </button>
+                    <img class="company-logo" src="~/Images/OldFilmCamera.png" />
+                </div>*@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="movie-shop-nav">
@@ -102,8 +112,9 @@
     </nav>
 
 
+
     <!------------------------- Carousel Start ------------------------------------------->
-    <div class="container d-grid carousel-container">
+    <div class="container d-grid carousel-container" id="container-div" hidden>
         <div id="movie-shop-carousel" class="carousel slide" data-interval="false">
 
             <!-- Wrapper for slides -->
@@ -114,6 +125,7 @@
                     int Id = 0;
                     int numberOfRows = 2;
                     int numberofRowsInthelastCarouselItem;
+                    int numberOfCardsPerRow = 3;
 
                     foreach (var item in Model)
                     {
@@ -138,7 +150,7 @@
                     }
                     else
                     {
-                        numberofRowsInthelastCarouselItem = 0;
+                        numberofRowsInthelastCarouselItem = 2;
                     }
                 }
 
@@ -169,8 +181,28 @@
                         {
                             @Html.Raw("<div class='row row-col-auto align-items-center gap-5 justify-content-evenly' style='padding-bottom:2.5%;'>");
                         }
-                        for (int card = 0; card < 3; card++)
+
+                        for (int card = 0; card < numberOfCardsPerRow; card++)
                         {
+                            if (item == numberofCarouselItems - 1)
+                            {
+                                if (row == 0)
+                                {
+                                    if (reminderOfCards != 0 && reminderOfCards <= 3)
+                                    {
+                                        numberOfCardsPerRow = reminderOfCards;
+                                    }
+                                    else
+                                    {
+                                        numberOfCardsPerRow = 3;
+                                    }
+                                }
+                                else if (row == 1)
+                                {
+                                    numberOfCardsPerRow = Math.Abs(reminderOfCards - 3);
+                                }
+                            }
+
                             if (Id < length) { Id++; }
                             var movie = Model.Where(m => m.Id == @Id);
                             var base64 = Convert.ToBase64String(@movie.ElementAt(0).Image);
@@ -223,9 +255,9 @@
             <div class="number-text">1/5</div>
             <div class="statistics-slide">
                 <ol style="list-style-type: disc;">
-                    @for(int i = 0; i < ViewBag.TheTopFiveMostPopularMovies.Length; i++)
+                    @for (int i = 0; i < ViewBag.TheTopFiveMostPopularMovies.Length; i++)
                     {
-                    <li>@ViewBag.TheTopFiveMostPopularMovies[i][0]  (sold pcs.:  @ViewBag.TheTopFiveMostPopularMovies[i][1])</li>
+                        <li>@ViewBag.TheTopFiveMostPopularMovies[i][0]  (sold pcs.:  @ViewBag.TheTopFiveMostPopularMovies[i][1])</li>
                     }
                 </ol>
             </div>
@@ -238,7 +270,7 @@
                 <ol style="list-style-type: disc;">
                     @foreach (var movie in ViewBag.TheTopFiveNewestMovies)
                     {
-                    <li>@movie.Title (Year of Release: @movie.RealYear)</li>
+                        <li>@movie.Title (Year of Release: @movie.RealYear)</li>
                     }
                 </ol>
             </div>
@@ -299,12 +331,12 @@
 
 
     <div class="container" id="footer-container">
-    <footer>
+        <footer>
             &copy; @DateTime.Today.Year Movie Shop Inc. - Kungliga slottet - 10770 Stockholm - Sweden -
             <i class="fas fa-phone-square"></i>: 08-333444555 -
             <i class="fas fa-at"></i>: contact@movieshop.com -
             <i class="fas fa-globe"></i>: https://www.movieshop.com - VAT-number: 123456789-25
-    </footer>
+        </footer>
     </div>
 
     <!-- jQuery -->
@@ -314,5 +346,18 @@
     <script src='https://craig.global.ssl.fastly.net/js/mousetrap/mousetrap.min.js?a4098'></script>
     <!--- Own developed JS -->
     <script src="~/Scripts/movieshop.js"></script>
+
+    <script>
+        window.onload = function () {
+            var displaysetting = $('body').css('display');
+            setTimeout(function () {
+                // fadeOut complete and hide
+                $("#loading-div").hide(5000, "swing", function () {});
+                $("#container-div").show(5000, "swing", function () {});
+                //Show the carousel
+            }, 2000);
+        }
+    </script>
+
 </body>
 </html>
