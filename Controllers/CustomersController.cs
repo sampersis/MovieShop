@@ -136,10 +136,6 @@ namespace MovieShop.Controllers
             Movies = MovieDB.Movies.ToList();
 
             Session["ID"] = Guid.NewGuid().ToString();
-            if (Session["Loading"] == null)
-            {
-                Session["Loading"] = null;
-            }
 
             if (Movies == null)
             {

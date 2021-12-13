@@ -185,6 +185,10 @@
     <Compile Include="Migrations\202111091357410_InitialAddMovieDBAndTables.designer.cs">
       <DependentUpon>202111091357410_InitialAddMovieDBAndTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112131235074_TableAspNetUsers.cs" />
+    <Compile Include="Migrations\202112131235074_TableAspNetUsers.Designer.cs">
+      <DependentUpon>202112131235074_TableAspNetUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -220,6 +224,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Images\SphereAnimation.webp" />
     <Content Include="Database Dump\MovieDB.backup.20211210" />
+    <Content Include="Database Dump\MovieDB.Dump.20211213" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\movieshop.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -314,6 +319,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202111091357410_InitialAddMovieDBAndTables.resx">
       <DependentUpon>202111091357410_InitialAddMovieDBAndTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112131235074_TableAspNetUsers.resx">
+      <DependentUpon>202112131235074_TableAspNetUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

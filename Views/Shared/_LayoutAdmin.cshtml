@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @using Microsoft.AspNet.Identity
+    @using MovieShop.Controllers
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Movie Shop</title>
@@ -27,23 +30,27 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        @*<li class="admin-menu-item disabled">@Html.ActionLink("Customer Admin", "CustomerAdminPage", "Admin")</li>
-                        <li class="admin-menu-item disabled">@Html.ActionLink("Movie Admin", "MovieAdminPage", "Admin")</li>
-                        <li class="admin-menu-item disabled">@Html.ActionLink("Order Admin", "OrderAdminPage", "Admin")</li>*@
-                        <li class="admin-menu-item">@Html.ActionLink("Customer Admin", "CustomerAdminPage", "Admin")</li>
-                        <li class="admin-menu-item">@Html.ActionLink("Movie Admin", "MovieAdminPage", "Admin")</li>
-                        <li class="admin-menu-item">@Html.ActionLink("Order Admin", "OrderAdminPage", "Admin")</li>
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            @Html.AntiForgeryToken()
+                            <li>@Html.ActionLink("Customer Admin", "CustomerAdminPage", "Admin")</li>
+                            <li>@Html.ActionLink("Movie Admin", "MovieAdminPage", "Admin")</li>
+                            <li>@Html.ActionLink("Order Admin", "OrderAdminPage", "Admin")</li>
+
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <li><a class ="btn btn-link" style="text-decoration: none; padding-top: 10px;  color: red" href="javascript:document.getElementById('logoutForm').submit()">Log off @User.Identity.GetUserName()</a></li>
+                            }
+                        }
                     </ul>
-                    @*@Html.Partial("_LoginPartial")*@
-                </div>
+                   </div>
             </div>
         </div>
         <div class="container body-content">
             @RenderBody()
             <hr />
-            @*<footer class="footer">
-                <p>&copy; @DateTime.Now.Year - Movie Shop Inc. - <span style="color:darkred;">System Administration Pages - Malicious usage will be reported to the appropriate law enforcement agencies</span></p>
-            </footer>*@
         </div>
 
         @Scripts.Render("~/bundles/jquery")

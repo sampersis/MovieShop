@@ -32,10 +32,6 @@ textarea {
 }
 
 
-/*.admin-menu-item {
-    pointer-events: none;
-}*/
-
 
 .admin-login-page-header {
     font-family: 'Azeret Mono', monospace;
@@ -51,17 +47,19 @@ textarea {
 .login-div{
     border-radius: 0 5px 0 5px;
 }
+
 .login-form-div {
     position: sticky;
     font-family: 'Azeret Mono', monospace;
-    margin: -37% auto 0 auto;
-    width: 425px;
+    margin: -35% auto 0 auto;
+    padding-top: 1%;
+    width: 450px;
     border: solid black;
     border-radius: 10px 10px 10px 10px;
     background-repeat: no-repeat;
     border-color: red;
-    border-width: 10px;
-   background-color: black;
+    border-width: 5px;
+    background-color: black;
 }
 
 .image-form-div {
@@ -72,23 +70,35 @@ img {
     width: 100%;
 }
 
+.login-form-email-input {
+
+}
+
 .login-form-email-label {
-    padding: 30px 10px 0 25px;
+    float: left;
+    padding: 30px 28px 0 25px;
     color: white;
 }
 
 .login-form-password-label {
-    padding: 0 55px 0 27px;
+    float: none;
+    float:left;
+    margin-left: 5%;
     color: white;
+}
+
+.login-form-password-input {
+    float: left;
+    margin-left: 1%;
 }
 
 .login-form-signin {
     padding: 3px;
     align-self: center;
-    margin-left: 165px;
-    margin-bottom: 20px;
+    margin-left: 5%;
+    margin-bottom: 1%;
     width: 220px;
-    border:solid red 2px;
+    border: solid red 2px;
     border-radius: 5px;
     background-color: black;
     color: red;

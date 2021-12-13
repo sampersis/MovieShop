@@ -13,6 +13,10 @@ namespace MovieShop
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("Account/");
+
+            routes.IgnoreRoute("Manage/");
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieShop.Models
@@ -64,6 +65,13 @@ namespace MovieShop.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [DisplayName("Forename")]
+        public string FirstName { get; set; }
+        [Required]
+        [DisplayName("Surname")]
+        public string LastName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

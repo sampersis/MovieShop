@@ -1,4 +1,6 @@
-﻿
+﻿@using MovieShop.Models
+@model LoginViewModel
+
 @{
     ViewBag.Title = "Admin Home";
 }
@@ -10,21 +12,33 @@
         <img src="/Images/bg-admin-login-page.jpg" />
     </div>
     <div class="login-form-div">
-        <form method="post">
-            <label class="login-form-email-label"><strong>Email address</strong></label>
-            <input class="login-form-input" type="email" name="emailaddress" required><br /><br />
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "login-form-email-label control-label" })
 
-            <label class="login-form-password-label"><strong>Password</strong></label>
-            <input type="password" name="password" required><br /><br />
-
-            <input class="login-form-signin" type="submit" value="Sign In">
-        </form>
-    </div>
-    <div class="legal-notice">
-        <p>
-            This service is restricted to authorized users only. All activities on this system are logged.
-            Unauthorized access will be fully investigated and reported to the appropriate law enforcement agencies.
-        </p>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "login-form-email-input form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group form-group-passwd">
+                    @Html.LabelFor(m => m.Password, new { @class = "login-form-password-label control-label" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "login-form-password-input form-control"})
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="login-form-signin btn btn-default" />
+                    </div>
+                </div>
+            }
     </div>
 </div>
 
+<div class="legal-notice">
+    <p>
+        This service is restricted to authorized users only. All activities on this system are logged.
+        Unauthorized access will be fully investigated and reported to the appropriate law enforcement agencies.
+    </p>
+</div>

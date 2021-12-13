@@ -60,6 +60,8 @@ namespace MovieShop.Controllers
 
         }
     }
+
+    [AllowedIP] [Authorize]
     public class AdminController : Controller
     {
         public ApplicationDbContext MovieDB;
@@ -80,18 +82,15 @@ namespace MovieShop.Controllers
         }
 
         // GET: Admin
-        [AllowedIP]
+       [AllowAnonymous]
         public ActionResult AdminLoginPage()
         {
-            // If login Failed inform the user
-            // if login succeeded write a welcome page and add a logout menu item to the navigation bar.
             return View();
         }
 
         //------------------------------------------------------------------------------------------------//
         //----------------------------- Movie Admin Page ----------------------------------------------//
         //------------------------------------------------------------------------------------------------//
-        [AllowedIP]
         public ActionResult MovieAdminPage()
         {
             Movies = MovieDB.Movies.OrderBy(m => m.Id).ToList();
@@ -106,7 +105,6 @@ namespace MovieShop.Controllers
             }
         }
 
-        [AllowedIP]
         public ActionResult CreateMovieAdminPage()
         {
             return View();
@@ -134,7 +132,6 @@ namespace MovieShop.Controllers
             return RedirectToAction("MovieAdminPage");
         }
 
-        [AllowedIP]
         public ActionResult DeleteMovieAdminPage(int Id)
         {
             var movie = MovieDB.Movies.FirstOrDefault(m => m.Id == Id);
@@ -166,7 +163,6 @@ namespace MovieShop.Controllers
             }
         }
 
-        [AllowedIP]
         public ActionResult ModifyMovieAdminPage(int Id)
         {
             var movie = MovieDB.Movies.FirstOrDefault(m => m.Id == Id);
@@ -210,7 +206,6 @@ namespace MovieShop.Controllers
         //------------------------------------------------------------------------------------------------//
         //----------------------------- Customer Admin Page ----------------------------------------------//
         //------------------------------------------------------------------------------------------------//
-        [AllowedIP]
         public ActionResult CustomerAdminPage(string sortOrder, string currentFilter, string searchString, int? page)
         {
             Customers = MovieDB.Customers.OrderBy(c => c.LastName).ToList();
@@ -227,7 +222,6 @@ namespace MovieShop.Controllers
 
         // ------------------------------- Microsoft generated methods ------------------------//
         // GET: Customers/Create
-        [AllowedIP]
         public ActionResult CreateCustomer()
         {
             return View();
@@ -252,7 +246,6 @@ namespace MovieShop.Controllers
 
 
         // GET: Customers/Edit/5
-        [AllowedIP]
         public ActionResult EditCustomer(int? id)
         {
             if (id == null)
@@ -284,7 +277,6 @@ namespace MovieShop.Controllers
         }
 
         // GET: Customers/Delete/5
-        [AllowedIP]
         public ActionResult DeleteCustomer(int? id)
         {
             if (id == null)
@@ -365,7 +357,6 @@ namespace MovieShop.Controllers
         //------------------------------------------------------------------------------------------------//
         //----------------------------------------- Order Admin ------------------------------------------//
         //------------------------------------------------------------------------------------------------//
-        [AllowedIP]
         public ActionResult OrderAdminPage()
         {
             Orders = MovieDB.Orders.OrderBy(c => c.Id).ToList();

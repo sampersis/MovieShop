@@ -11,7 +11,7 @@ using MovieShop.Models;
 namespace MovieShop.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+     class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
